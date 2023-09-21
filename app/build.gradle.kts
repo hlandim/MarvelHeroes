@@ -1,13 +1,31 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
+}
+fun properties(propertiesFile: String) = Properties().apply {
+    runCatching { load(FileInputStream(rootProject.file(propertiesFile))) }
 }
 
+val localProperties = properties("local.properties")
 android {
     namespace = "com.hlandim.marvelheroes"
     compileSdk = 34
 
     defaultConfig {
+
+        buildConfigField(
+            String::class.java.name, "MARVEL_PUBLIC_API_KEY",
+            "\"" + localProperties.getProperty("MARVEL_PUBLIC_API_KEY", "") + "\"",
+        )
+        buildConfigField(
+            String::class.java.name, "MARVEL_PRIVATE_API_KEY",
+            "\"" + localProperties.getProperty("MARVEL_PRIVATE_API_KEY", "") + "\"",
+        )
+
         applicationId = "com.hlandim.marvelheroes"
         minSdk = 29
         targetSdk = 33
@@ -38,6 +56,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.androidx.compose.compiler.get().version
@@ -51,6 +70,7 @@ android {
 
 dependencies {
 
+    // Default
     implementation(libs.androidx.core.core.ktx)
     implementation(libs.androidx.lifecycle.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.activity.compose)
@@ -65,4 +85,17 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.ui.test.manifest)
+
+    // Room
+    implementation(libs.androidx.room.room.runitme)
+    annotationProcessor(libs.androidx.room.room.compiler)
+
+    //Retrofit
+    implementation(libs.com.squareup.retrofit2.retrofit)
+    implementation(libs.com.squareup.retrofit2.retrofit.converter.moshi)
+    implementation(libs.com.squareup.okhttp3.logging.interceptor)
+
+    // Hilt
+    implementation(libs.com.google.dagger.hilt.android)
+    kapt(libs.com.google.dagger.hilt.android.compiler)
 }
