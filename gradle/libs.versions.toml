@@ -16,6 +16,10 @@ org-jetbrains-kotlinx = "1.6.4"
 version-catalog-update = "0.8.1"
 hilt-android = "2.44"
 retrofit = "2.9.0"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+appcompat = "1.6.1"
+material = "1.9.0"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
@@ -87,6 +91,10 @@ org-jetbrains-kotlinx-kotlinx-coroutines-test = { module = "org.jetbrains.kotlin
 org-jetbrains-kotlinx-kotlinx-coroutines-test-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm", version.ref = "org-jetbrains-kotlinx" }
 com-google-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 com-google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit115 = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
@@ -95,3 +103,4 @@ com-github-ben-manes-versions = { id = "com.github.ben-manes.versions", version.
 nl-littlerobots-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "android-gradle-plugin" }

@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes
+package com.hlandim.marvelheroes.core
 
 import org.junit.Test
 

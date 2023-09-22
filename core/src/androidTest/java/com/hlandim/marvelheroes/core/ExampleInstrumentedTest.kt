@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes
+package com.hlandim.marvelheroes.core
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.hlandim.marvelheroes", appContext.packageName)
+        assertEquals("com.hlandim.marvelheroes.core.test", appContext.packageName)
     }
 }
