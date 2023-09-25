@@ -4,6 +4,7 @@ import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+private const val DEFAULT_TARGET = 33
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
 
@@ -14,7 +15,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
         extensions.configure(LibraryExtension::class.java) {
             configureKotlinAndroid(this)
-            defaultConfig.targetSdk = 33
+            defaultConfig.targetSdk = DEFAULT_TARGET
         }
     }
 }
