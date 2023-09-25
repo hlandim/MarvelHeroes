@@ -2,7 +2,7 @@ package com.hlandim.marvelheroes.di
 
 import android.app.Application
 import androidx.room.Room
-import com.hlandim.marvelheroes.core.data.SessionInterceptor
+import com.hlandim.marvelheroes.network.SessionInterceptor
 import com.hlandim.marvelheroes.data.local.HeroDatabase
 import com.hlandim.marvelheroes.data.remote.MarvelApi
 import dagger.Module

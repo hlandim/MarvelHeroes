@@ -1,6 +1,5 @@
-package com.hlandim.marvelheroes.core.data
+package com.hlandim.marvelheroes.network
 
-import com.hlandim.marvelheroes.core.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.security.MessageDigest
