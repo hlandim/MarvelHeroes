@@ -7,6 +7,7 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
@@ -16,4 +17,10 @@ dependencyResolutionManagement {
 rootProject.name = "MarvelHeroes"
 include(":app")
 include(":core")
-include(":network")
+include(":core:data")
+include(":core:database")
+include(":core:model")
+include(":core:network")
+include(":feature")
+include(":feature:heroes_list")
+include(":core:testing")

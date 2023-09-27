@@ -1,17 +1,12 @@
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("hlandim.android.application")
 }
 
 android {
     namespace = "com.hlandim.marvelheroes"
-    compileSdk = 34
 
     defaultConfig {
-
         applicationId = "com.hlandim.marvelheroes"
-        minSdk = 29
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -30,20 +25,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_20
-        targetCompatibility = JavaVersion.VERSION_20
-    }
-    kotlinOptions {
-        jvmTarget = "20"
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.androidx.compose.compiler.get().version
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -53,7 +35,26 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
-    implementation(project(":network"))
+    implementation(project(":core:data"))
+    // Default
+    api(libs.androidx.lifecycle.lifecycle.runtime.ktx)
+    api(libs.androidx.activity.activity.compose)
+    api(platform(libs.androidx.compose.compose.bom))
+    api(libs.androidx.compose.ui.ui.graphics)
+    api(libs.androidx.compose.ui.ui.tooling.preview)
+    api(libs.androidx.compose.material3)
+    testApi(libs.junit)
+    androidTestApi(libs.androidx.test.ext.junit)
+    androidTestApi(libs.androidx.test.espresso.espresso.core)
+    androidTestApi(platform(libs.androidx.compose.compose.bom))
+    androidTestApi(libs.androidx.compose.ui.ui.test.junit4)
+    debugApi(libs.androidx.compose.ui.ui.tooling)
+    debugApi(libs.androidx.compose.ui.ui.test.manifest)
 
+    api(libs.androidx.core.core.ktx)
+    api(libs.appcompat)
+    api(libs.material)
+    testApi(libs.junit4)
+    androidTestApi(libs.androidx.test.ext.junit115)
+    androidTestApi(libs.androidx.test.espresso.espresso.core)
 }

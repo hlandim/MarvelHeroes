@@ -2,7 +2,6 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-//    alias(libs.plugins.com.android.library)
     alias(libs.plugins.com.github.ben.manes.versions)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
 }
@@ -13,6 +12,14 @@ allprojects {
         rejectVersionIf {
             isNonStable(candidate.version)
         }
+    }
+}
+
+versionCatalogUpdate {
+    sortByKey.set(true)
+    keep {
+        keepUnusedPlugins.set(true)
+        keepUnusedLibraries.set(true)
     }
 }
 
