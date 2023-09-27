@@ -11,7 +11,6 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
-
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
@@ -19,6 +18,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             apply(libs.findPlugin("com-android-library").get().get().pluginId)
             apply(libs.findPlugin("org-jetbrains-kotlin-android").get().get().pluginId)
             apply("hlandim.android.lint")
+            apply("hlandim.android.detekt")
             apply(libs.findPlugin("org-jetbrains-kotlin-kapt").get().get().pluginId)
         }
 
@@ -38,19 +38,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             minSdk = MIN_SDK
         }
 
-        compileOptions {
-            sourceCompatibility = Config.JAVA_VERSION
-            targetCompatibility = Config.JAVA_VERSION
-        }
-
         kotlinOptions {
-            jvmTarget = Config.JAVA_VERSION.toString()
+            jvmTarget = "${Config.JAVA_VERSION}"
         }
 
         buildFeatures {
             buildConfig = true
         }
-
     }
 
     private fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {

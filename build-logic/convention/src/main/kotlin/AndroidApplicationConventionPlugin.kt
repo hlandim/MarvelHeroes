@@ -16,6 +16,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply(libs.findPlugin("com-android-application").get().get().pluginId)
                 apply(libs.findPlugin("org-jetbrains-kotlin-android").get().get().pluginId)
                 apply("hlandim.android.lint")
+                apply("hlandim.android.detekt")
             }
             extensions.configure(ApplicationExtension::class.java) {
                 compileSdk = COMPILE_SDK

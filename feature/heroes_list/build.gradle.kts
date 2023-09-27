@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.hlandim.marvelheroes.feature.heroes_list"
+    namespace = "com.hlandim.marvelheroes.feature.heroeslist"
 }

@@ -24,13 +24,8 @@ internal fun Project.configureAndroidCompose(
                 libs.findVersion("androidx-compose-compile-version").get().toString()
         }
 
-        compileOptions {
-            sourceCompatibility = Config.JAVA_VERSION
-            targetCompatibility = Config.JAVA_VERSION
-        }
-
         kotlinOptions {
-            jvmTarget = Config.JAVA_VERSION.toString()
+            jvmTarget = "${Config.JAVA_VERSION}"
         }
         dependencies {
             val bom = libs.findLibrary("androidx-compose-compose-bom").get()
@@ -43,7 +38,6 @@ internal fun Project.configureAndroidCompose(
             add("implementation", libs.findLibrary("androidx-compose-material3").get())
         }
     }
-
 }
 
 private fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {

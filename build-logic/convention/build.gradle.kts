@@ -15,17 +15,18 @@ dependencies {
     runtimeOnly(libs.com.google.dagger.hilt.android.gradle.plugin)
     implementation(libs.com.google.devtools.ksp.gradle.plugin)
     implementation(libs.org.jlleitschuh.gradle.ktlint.gradle)
+    implementation(libs.io.gitlab.arturbosch.detekt.detekt.gradle.plugin)
 }
 
-gradlePlugin{
-    plugins{
+gradlePlugin {
+    plugins {
         register("androidApplicationCompose") {
             id = "hlandim.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("androidLibrary"){
-            id="hlandim.android.library"
-            implementationClass="AndroidLibraryConventionPlugin"
+        register("androidLibrary") {
+            id = "hlandim.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidHilt") {
             id = "hlandim.android.hilt"
@@ -39,9 +40,19 @@ gradlePlugin{
             id = "hlandim.android.lint"
             implementationClass = "AndroidLintConventionPlugin"
         }
+        register("androidDetekt") {
+            id = "hlandim.android.detekt"
+            implementationClass = "AndroidDetektConventionPlugin"
+        }
         register("androidFeature") {
             id = "hlandim.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of("18"))
     }
 }
