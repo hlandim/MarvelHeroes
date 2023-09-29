@@ -1,6 +1,7 @@
+import com.android.build.gradle.LibraryExtension
+import com.hlandim.marvelheroes.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
@@ -11,16 +12,14 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("hlandim.android.hilt")
             }
 
-            val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+            extensions.configure(LibraryExtension::class.java) {
+                configureAndroidCompose(this)
+            }
+
             dependencies {
                 add("implementation", project(":core:model"))
                 add("implementation", project(":core:data"))
-
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-
-                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+                add("implementation", project(":core:ui"))
             }
         }
     }

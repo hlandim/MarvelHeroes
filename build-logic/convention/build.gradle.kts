@@ -48,6 +48,10 @@ gradlePlugin {
             id = "hlandim.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
+        register("androidCompose") {
+            id = "hlandim.android.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
+        }
     }
 }
 

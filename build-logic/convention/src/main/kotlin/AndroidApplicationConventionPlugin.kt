@@ -7,6 +7,7 @@ import com.hlandim.marvelheroes.setDefaultConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.dependencies
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -26,6 +27,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     targetSdk = DEFAULT_TARGET
                     minSdk = MIN_SDK
                 }
+            }
+
+            dependencies {
+                add("implementation", project(":core:ui"))
             }
         }
     }

@@ -31,11 +31,12 @@ internal fun Project.configureAndroidCompose(
             val bom = libs.findLibrary("androidx-compose-compose-bom").get()
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
-            // Android Studio Preview support
-            add("implementation", libs.findLibrary("androidx-compose-ui-ui-tooling-preview").get())
-            add("debugImplementation", libs.findLibrary("androidx-compose-ui-ui-tooling").get())
-            // Material
-            add("implementation", libs.findLibrary("androidx-compose-material3").get())
+
+            add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
+            add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+
+            add("implementation", libs.findLibrary("androidx.navigation.navigation.compose").get())
+            add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
         }
     }
 }
