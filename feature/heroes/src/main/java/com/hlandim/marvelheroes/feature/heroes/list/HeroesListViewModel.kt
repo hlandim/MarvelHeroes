@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes.heroeslist
+package com.hlandim.marvelheroes.feature.heroes.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,12 +15,13 @@ import javax.inject.Inject
 private const val PAGING_SIZE = 20
 
 @HiltViewModel
-class HeroesViewModel @Inject constructor(
+class HeroesListViewModel @Inject constructor(
     private val heroRepository: HeroRepository,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<HeroesUiState> = MutableStateFlow(HeroesUiState.Loading)
-    val uiState: StateFlow<HeroesUiState> = _uiState
+    private val _uiState: MutableStateFlow<HeroesListUiState> =
+        MutableStateFlow(HeroesListUiState.Loading)
+    val uiState: StateFlow<HeroesListUiState> = _uiState
 
     init {
         getHeroes()
@@ -37,29 +38,30 @@ class HeroesViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> result.data?.let { heroes ->
                         updateState {
-                            HeroesUiState.Found(heroes)
+                            HeroesListUiState.Found(heroes)
                         }
                     }
 
                     is Resource.Error ->
                         updateState {
-                            HeroesUiState.Error(
-                                heroes = result.data ?: if (_uiState.value is HeroesUiState.Found) {
-                                    (_uiState.value as HeroesUiState.Found).heroes
-                                } else {
-                                    emptyList()
-                                },
+                            HeroesListUiState.Error(
+                                heroes = result.data
+                                    ?: if (_uiState.value is HeroesListUiState.Found) {
+                                        (_uiState.value as HeroesListUiState.Found).heroes
+                                    } else {
+                                        emptyList()
+                                    },
                                 message = UiText.DynamicString(result.message.orEmpty())
                             )
                         }
 
-                    is Resource.Loading -> updateState { HeroesUiState.Loading }
+                    is Resource.Loading -> updateState { HeroesListUiState.Loading }
                 }
             }
         }
     }
 
-    private fun updateState(update: HeroesUiState.() -> HeroesUiState) {
+    private fun updateState(update: HeroesListUiState.() -> HeroesListUiState) {
         _uiState.update { update(it) }
     }
 }

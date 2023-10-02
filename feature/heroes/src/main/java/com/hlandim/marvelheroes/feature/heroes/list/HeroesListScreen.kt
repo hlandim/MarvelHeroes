@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes.heroeslist
+package com.hlandim.marvelheroes.feature.heroes.list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,7 @@ import com.hlandim.marvelheroes.ui.ErrorDialog
 
 @Composable
 fun HeroesListRoute(
-    viewModel: HeroesViewModel = hiltViewModel(),
+    viewModel: HeroesListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Surface(Modifier.fillMaxSize()) {
@@ -29,11 +29,11 @@ fun HeroesListRoute(
 
 @Composable
 private fun HeroesListScreen(
-    uiState: HeroesUiState,
+    uiState: HeroesListUiState,
 ) {
     Box(Modifier.fillMaxSize()) {
         when (uiState) {
-            is HeroesUiState.Error -> {
+            is HeroesListUiState.Error -> {
                 uiState.heroes?.let { HeroesGridList(heroes = it) }
                 ErrorDialog(
                     message = uiState.message.asString(),
@@ -42,8 +42,8 @@ private fun HeroesListScreen(
                 )
             }
 
-            is HeroesUiState.Found -> TODO()
-            HeroesUiState.Loading -> TODO()
+            is HeroesListUiState.Found -> TODO()
+            HeroesListUiState.Loading -> TODO()
         }
     }
 }

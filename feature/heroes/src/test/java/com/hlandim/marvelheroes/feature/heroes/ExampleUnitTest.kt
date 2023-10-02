@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes.heroeslist
+package com.hlandim.marvelheroes.feature.heroes
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

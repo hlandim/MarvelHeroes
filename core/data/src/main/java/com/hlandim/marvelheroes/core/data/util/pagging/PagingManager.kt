@@ -1,6 +1,6 @@
 @file:Suppress("UndocumentedPublicFunction")
 
-package com.hlandim.marvelheroes.util.paginator
+package com.hlandim.marvelheroes.core.data.util.pagging
 
 interface PagingManager<Key, Item> {
     suspend fun loadNextItems(searchQuery: String? = null)

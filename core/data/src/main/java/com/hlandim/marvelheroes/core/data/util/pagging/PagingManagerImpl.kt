@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes.util.paginator
+package com.hlandim.marvelheroes.core.data.util.pagging
 
 class PagingManagerImpl<Key, Item>(
     private val initialKey: Key,

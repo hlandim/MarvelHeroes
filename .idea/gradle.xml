@@ -33,7 +33,7 @@
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/heroes_list" />
+            <option value="$PROJECT_DIR$/feature/heroes" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
