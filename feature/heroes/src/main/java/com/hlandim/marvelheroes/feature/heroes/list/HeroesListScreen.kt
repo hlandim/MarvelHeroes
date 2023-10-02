@@ -12,14 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hlandim.marvelheroes.model.Hero
-import com.hlandim.marvelheroes.ui.ErrorDialog
+import com.hlandim.marvelheroes.ui.component.ErrorDialog
+import com.hlandim.marvelheroes.ui.component.MhLoading
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HeroesListRoute(
-    viewModel: HeroesListViewModel = hiltViewModel(),
+    viewModel: HeroesListViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Surface(Modifier.fillMaxSize()) {
@@ -42,8 +43,9 @@ private fun HeroesListScreen(
                 )
             }
 
-            is HeroesListUiState.Found -> TODO()
-            HeroesListUiState.Loading -> TODO()
+            is HeroesListUiState.Found -> HeroesGridList(heroes = uiState.heroes)
+
+            HeroesListUiState.Loading -> MhLoading()
         }
     }
 }

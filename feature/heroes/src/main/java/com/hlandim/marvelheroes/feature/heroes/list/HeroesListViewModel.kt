@@ -5,17 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.core.data.util.Resource
 import com.hlandim.marvelheroes.ui.util.UiText
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val PAGING_SIZE = 20
 
-@HiltViewModel
-class HeroesListViewModel @Inject constructor(
+class HeroesListViewModel(
     private val heroRepository: HeroRepository,
 ) : ViewModel() {
 
@@ -30,10 +27,10 @@ class HeroesListViewModel @Inject constructor(
     private fun getHeroes() {
         viewModelScope.launch {
             heroRepository.getHeroes(
-                0,
-                PAGING_SIZE,
-                false,
-                ""
+                offset = 0,
+                limit = PAGING_SIZE,
+                fetchFromRemote = false,
+                query = "",
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> result.data?.let { heroes ->

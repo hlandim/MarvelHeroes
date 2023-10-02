@@ -1,23 +1,16 @@
-package com.hlandim.marvelheroes.network
+package com.hlandim.marvelheroes.network.di
 
+import com.hlandim.marvelheroes.network.MarvelApi
 import com.hlandim.marvelheroes.network.util.SessionInterceptor
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.module.Module
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
-
-    @Provides
-    @Singleton
-    fun provideMarvelApi(): MarvelApi {
+val networkModule: Module = module {
+    single<MarvelApi> {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
@@ -25,7 +18,7 @@ object NetworkModule {
             .addInterceptor(SessionInterceptor())
             .addInterceptor(logging)
 
-        return Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(MarvelApi.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client.build())

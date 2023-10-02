@@ -12,7 +12,6 @@ java {
 dependencies {
     implementation(libs.com.android.tools.build.gradle)
     implementation(libs.org.jetbrains.kotlin.kotlin.gradle.plugin)
-    runtimeOnly(libs.com.google.dagger.hilt.android.gradle.plugin)
     implementation(libs.com.google.devtools.ksp.gradle.plugin)
     implementation(libs.org.jlleitschuh.gradle.ktlint.gradle)
     implementation(libs.io.gitlab.arturbosch.detekt.detekt.gradle.plugin)
@@ -28,9 +27,9 @@ gradlePlugin {
             id = "hlandim.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("androidHilt") {
-            id = "hlandim.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
+        register("androidKoin") {
+            id = "hlandim.android.koin"
+            implementationClass = "AndroidKoinConventionPlugin"
         }
         register("androidRoom") {
             id = "hlandim.android.room"

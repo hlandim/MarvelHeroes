@@ -9,7 +9,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply {
                 apply("hlandim.android.library")
-                apply("hlandim.android.hilt")
+                apply("hlandim.android.koin")
             }
 
             extensions.configure(LibraryExtension::class.java) {

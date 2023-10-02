@@ -2,17 +2,18 @@ package com.hlandim.marvelheroes.core.data.di
 
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.core.data.repository.HeroRepositoryImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.hlandim.marvelheroes.database.di.databaseModule
+import com.hlandim.marvelheroes.network.di.networkModule
+import org.koin.core.module.Module
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface DataModule {
-
-    @Binds
-    fun bingHeroRepository(
-        heroRepository: HeroRepositoryImpl
-    ): HeroRepository
+val dataModule: Module = module {
+    includes(networkModule)
+    includes(databaseModule)
+    single<HeroRepository> {
+        HeroRepositoryImpl(
+            api = get(),
+            db = get(),
+        )
+    }
 }

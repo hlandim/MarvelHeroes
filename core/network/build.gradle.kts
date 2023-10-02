@@ -3,7 +3,7 @@ import java.util.Properties
 
 plugins {
     id("hlandim.android.library")
-    id("hlandim.android.hilt")
+    id("hlandim.android.koin")
 }
 fun properties(propertiesFile: String) = Properties().apply {
     runCatching { load(FileInputStream(rootProject.file(propertiesFile))) }

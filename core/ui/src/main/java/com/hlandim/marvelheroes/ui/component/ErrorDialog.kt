@@ -1,4 +1,4 @@
-package com.hlandim.marvelheroes.ui
+package com.hlandim.marvelheroes.ui.component
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button

@@ -12,7 +12,7 @@ interface MarvelApi {
     suspend fun getHeroes(
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
-        @Query("nameStartWith") nameStartWith: String
+        @Query("nameStartsWith") nameStartsWith: String? = null,
     ): ListResponseDto
 
     companion object {

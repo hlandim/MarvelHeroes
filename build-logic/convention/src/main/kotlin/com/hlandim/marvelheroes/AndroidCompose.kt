@@ -32,7 +32,7 @@ internal fun Project.configureAndroidCompose(
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
 
-            add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
+            add("implementation", libs.findLibrary("io-insert-koin-androidx-compose").get())
             add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
             add("implementation", libs.findLibrary("androidx.navigation.navigation.compose").get())

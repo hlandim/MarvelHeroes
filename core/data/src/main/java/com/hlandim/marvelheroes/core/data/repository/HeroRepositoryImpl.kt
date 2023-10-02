@@ -6,19 +6,15 @@ import com.hlandim.marvelheroes.core.data.util.mapper.toHeroEntityList
 import com.hlandim.marvelheroes.database.HeroDatabase
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.network.MarvelApi
-import com.hlandim.marvelheroes.network.dto.ListResponseDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by Hugo Santos on 20/09/2023.
  */
-@Singleton
-class HeroRepositoryImpl @Inject constructor(
+class HeroRepositoryImpl(
     private val api: MarvelApi,
     db: HeroDatabase
 ) : HeroRepository {
@@ -31,7 +27,7 @@ class HeroRepositoryImpl @Inject constructor(
         query: String
     ): Flow<Resource<List<Hero>>> {
         return flow {
-            emit(Resource.Loading(isLoading = true))
+            emit(Resource.Loading())
             val localEntries = dao.searchHero(
                 offset = offset,
                 limit = limit,
@@ -46,14 +42,13 @@ class HeroRepositoryImpl @Inject constructor(
             val isDbEmpty = localEntries.isEmpty() && query.isBlank()
             val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
             if (shouldJustLoadFromCache) {
-                emit(Resource.Loading(isLoading = false))
                 return@flow
             }
             val remoteEntries = try {
                 api.getHeroes(
                     offset = offset,
                     limit = limit,
-                    nameStartWith = query
+                    nameStartsWith = query.ifBlank { null }
                 )
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -65,9 +60,11 @@ class HeroRepositoryImpl @Inject constructor(
                 null
             }
 
-            remoteEntries?.let { entries: ListResponseDto ->
-                dao.clearHeroes(entries.data.results.map { it.id })
-                dao.insertHeroes(entries.toHeroEntityList())
+            if (remoteEntries == null) {
+                emit(Resource.Error(message = "No heroes found"))
+            } else {
+                dao.clearHeroes(remoteEntries.data.results.map { it.id })
+                dao.insertHeroes(remoteEntries.toHeroEntityList())
                 emit(
                     Resource.Success(
                         data = dao.searchHero(
@@ -78,7 +75,6 @@ class HeroRepositoryImpl @Inject constructor(
                     )
                 )
             }
-            emit(Resource.Loading(isLoading = false))
         }
     }
 }

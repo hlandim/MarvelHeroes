@@ -4,13 +4,10 @@ import androidx.lifecycle.ViewModel
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.model.Thumbnail
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-class HeroDetailsViewModel @Inject constructor(
+class HeroDetailsViewModel(
     val heroRepository: HeroRepository,
 ) : ViewModel() {
 

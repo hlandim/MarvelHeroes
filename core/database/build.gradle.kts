@@ -1,6 +1,6 @@
 plugins {
     id("hlandim.android.library")
-    id("hlandim.android.hilt")
+    id("hlandim.android.koin")
     id("hlandim.android.room")
 }
 
