@@ -51,6 +51,10 @@ gradlePlugin {
             id = "hlandim.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"
         }
+        register("androidUnitTest") {
+            id = "hlandim.android.unitTest"
+            implementationClass = "AndroidUnitTestConventionPlugin"
+        }
     }
 }
 

@@ -2,6 +2,7 @@ plugins {
     id("hlandim.android.library")
     id("hlandim.android.koin")
     id("hlandim.android.room")
+    id("hlandim.android.unitTest")
 }
 
 android {

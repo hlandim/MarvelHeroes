@@ -27,6 +27,7 @@ retrofit = "2.9.0"
 room = "2.6.0-rc01"
 version-catalog-update = "0.8.1"
 koin = "3.5.0"
+mockk = "1.13.8"
 
 [libraries]
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -101,6 +102,9 @@ io-insert-koin-android = { module = "io.insert-koin:koin-android", version.ref =
 io-insert-koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
 io-insert-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 io-insert-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+io-insert-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+io-insert-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+io-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradle" }

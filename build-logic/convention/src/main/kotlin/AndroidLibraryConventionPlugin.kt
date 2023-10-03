@@ -26,6 +26,11 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             setDefaultConfig(this)
             configureKotlinAndroid(this)
             defaultConfig.targetSdk = DEFAULT_TARGET
+            buildTypes {
+                debug {
+                    enableUnitTestCoverage = true
+                }
+            }
         }
     }
 

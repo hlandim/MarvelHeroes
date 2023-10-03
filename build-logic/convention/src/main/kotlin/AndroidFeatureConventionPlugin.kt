@@ -10,6 +10,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("hlandim.android.library")
                 apply("hlandim.android.koin")
+                apply("hlandim.android.unitTest")
             }
 
             extensions.configure(LibraryExtension::class.java) {

@@ -17,6 +17,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply(libs.findPlugin("org-jetbrains-kotlin-android").get().get().pluginId)
                 apply("hlandim.android.lint")
                 apply("hlandim.android.detekt")
+                apply("hlandim.android.koin")
+                apply("hlandim.android.unitTest")
             }
             extensions.configure(ApplicationExtension::class.java) {
                 compileSdk = COMPILE_SDK
@@ -25,6 +27,11 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 with(defaultConfig) {
                     targetSdk = DEFAULT_TARGET
                     minSdk = MIN_SDK
+                }
+                buildTypes {
+                    debug {
+                        enableUnitTestCoverage = true
+                    }
                 }
             }
         }

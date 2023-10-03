@@ -12,6 +12,8 @@ class AndroidKoinConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("io-insert-koin-core").get())
                 "implementation"(libs.findLibrary("io-insert-koin-android").get())
                 "implementation"(libs.findLibrary("io-insert-koin-androidx-navigation").get())
+                "testImplementation"(libs.findLibrary("io-insert-koin-test").get())
+                "testImplementation"(libs.findLibrary("io-insert-koin-test-junit4").get())
             }
         }
     }

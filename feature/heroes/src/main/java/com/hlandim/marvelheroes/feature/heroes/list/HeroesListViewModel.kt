@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.core.data.util.Resource
 import com.hlandim.marvelheroes.ui.util.UiText
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -14,6 +16,7 @@ private const val PAGING_SIZE = 20
 
 class HeroesListViewModel(
     private val heroRepository: HeroRepository,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HeroesListUiState> =
@@ -25,7 +28,7 @@ class HeroesListViewModel(
     }
 
     private fun getHeroes() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             heroRepository.getHeroes(
                 offset = 0,
                 limit = PAGING_SIZE,
