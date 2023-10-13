@@ -10,6 +10,7 @@ import com.hlandim.marvelheroes.model.Thumbnail
 
 fun HeroEntity.toHero(): Hero =
     Hero(
+        id = id,
         name = name,
         thumbnail = Thumbnail(
             path = thumbnailPath,
@@ -18,6 +19,7 @@ fun HeroEntity.toHero(): Hero =
     )
 
 fun Hero.toHeroEntity(): HeroEntity = HeroEntity(
+    id = id,
     name = name,
     thumbnailPath = thumbnail.path,
     thumbnailExtension = thumbnail.extension

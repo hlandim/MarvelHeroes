@@ -1,6 +1,6 @@
 package com.hlandim.marvelheroes.core.data.repository
 
-import com.hlandim.marvelheroes.core.data.util.Resource
+import com.hlandim.marvelheroes.core.data.util.DataResponse
 import com.hlandim.marvelheroes.model.Hero
 import kotlinx.coroutines.flow.Flow
 
@@ -13,5 +13,7 @@ interface HeroRepository {
         limit: Int,
         fetchFromRemote: Boolean,
         query: String
-    ): Flow<Resource<List<Hero>>>
+    ): Flow<DataResponse<List<Hero>>>
+
+    fun getHero(id: Int): Flow<DataResponse<Hero>>
 }

@@ -14,6 +14,7 @@ val dataModule: Module = module {
         HeroRepositoryImpl(
             api = get(),
             db = get(),
+            networkCheck = get(),
         )
     }
 }

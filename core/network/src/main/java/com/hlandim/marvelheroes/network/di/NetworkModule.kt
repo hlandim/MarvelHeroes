@@ -1,6 +1,7 @@
 package com.hlandim.marvelheroes.network.di
 
 import com.hlandim.marvelheroes.network.MarvelApi
+import com.hlandim.marvelheroes.network.util.NetworkCheck
 import com.hlandim.marvelheroes.network.util.SessionInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,4 +26,6 @@ val networkModule: Module = module {
             .build()
             .create(MarvelApi::class.java)
     }
+
+    single<NetworkCheck> { NetworkCheck(get()) }
 }

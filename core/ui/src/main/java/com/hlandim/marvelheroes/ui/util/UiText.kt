@@ -3,6 +3,8 @@ package com.hlandim.marvelheroes.ui.util
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 sealed class UiText {
     /**
@@ -19,7 +21,7 @@ sealed class UiText {
     @Suppress("OutdatedDocumentation")
     class StringResource(
         @StringRes val resId: Int,
-        vararg val args: Any,
+        val args: ImmutableList<Any> = persistentListOf<String>(),
     ) : UiText()
 
     /**
@@ -30,7 +32,7 @@ sealed class UiText {
     fun asString(): String {
         return when (this) {
             is DynamicString -> value
-            is StringResource -> stringResource(resId, *args)
+            is StringResource -> stringResource(resId, *args.toTypedArray())
         }
     }
 }

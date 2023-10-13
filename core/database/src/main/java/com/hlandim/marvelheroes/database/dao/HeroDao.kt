@@ -40,4 +40,9 @@ interface HeroDao {
         limit: Int,
         query: String
     ): List<HeroEntity>
+
+    @Query("SELECT * FROM hero WHERE id = :id")
+    suspend fun searchHeroById(
+        id: Int,
+    ): HeroEntity
 }

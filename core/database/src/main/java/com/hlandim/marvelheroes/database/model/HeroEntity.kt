@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "hero")
 data class HeroEntity(
     @PrimaryKey
-    val id: Int? = null,
+    val id: Int,
     val name: String,
     val thumbnailPath: String,
     val thumbnailExtension: String
