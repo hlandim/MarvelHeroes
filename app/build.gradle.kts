@@ -37,6 +37,7 @@ dependencies {
 
     implementation(project(":feature:heroes-list"))
     implementation(project(":feature:hero-details"))
+    implementation(project(":feature:comics-list"))
     implementation(project(":core:ui"))
     // Default
     api(libs.androidx.lifecycle.lifecycle.runtime.ktx)

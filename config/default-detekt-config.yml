@@ -645,7 +645,7 @@ style:
     active: false
   MultilineRawStringIndentation:
     active: false
-    indentSize: 4
+    indentSize: 8
     trimmingMethods:
       - 'trimIndent'
       - 'trimMargin'

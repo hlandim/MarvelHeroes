@@ -33,6 +33,7 @@
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/comics-list" />
             <option value="$PROJECT_DIR$/feature/hero-details" />
             <option value="$PROJECT_DIR$/feature/heroes-list" />
           </set>

@@ -71,10 +71,9 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-@Suppress("AnnotationOnSeparateLine")
-fun MarvelHeroesTheme(
+fun MhTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (!useDarkTheme) {
         LightColors
