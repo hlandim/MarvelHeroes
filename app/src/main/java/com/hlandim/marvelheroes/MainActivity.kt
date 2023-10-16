@@ -44,7 +44,12 @@ class MainActivity : ComponentActivity() {
 private fun MhBottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val screens = remember { listOf(Destinations.HeroesList, Destinations.ComicLists) }
+    val screens = remember {
+        listOf(
+            BottomBarDestinations.HeroesList,
+            BottomBarDestinations.ComicLists,
+        )
+    }
     NavigationBar {
         screens.forEach { screen ->
             NavigationBarItem(
