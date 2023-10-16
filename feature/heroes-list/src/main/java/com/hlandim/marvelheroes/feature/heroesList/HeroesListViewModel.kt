@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.core.data.util.DataResponse
 import com.hlandim.marvelheroes.ui.util.UiText
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-private const val PAGING_SIZE = 20
 
 class HeroesListViewModel(
     private val heroRepository: HeroRepository,
@@ -38,18 +38,18 @@ class HeroesListViewModel(
                 when (result) {
                     is DataResponse.Success -> result.data?.let { heroes ->
                         updateState {
-                            HeroesListUiState.Found(heroes)
+                            HeroesListUiState.Found(heroes.toPersistentList())
                         }
                     }
 
                     is DataResponse.Error ->
                         updateState {
                             HeroesListUiState.Error(
-                                heroes = result.data
+                                heroes = result.data?.toPersistentList()
                                     ?: if (_uiState.value is HeroesListUiState.Found) {
                                         (_uiState.value as HeroesListUiState.Found).heroes
                                     } else {
-                                        emptyList()
+                                        persistentListOf()
                                     },
                                 message = UiText.DynamicString(result.message)
                             )
