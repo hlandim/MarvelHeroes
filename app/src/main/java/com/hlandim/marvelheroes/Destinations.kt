@@ -1,26 +1,24 @@
 package com.hlandim.marvelheroes
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.hlandim.marvelheroes.feature.comicsList.navigation.COMICS_LIST_ROUTE
 import com.hlandim.marvelheroes.feature.heroesList.navigation.HEROES_LIST_ROUTE
 
 sealed class Destinations(
     val route: String,
-    val title: String? = null,
-    val icon: ImageVector? = null
+    @StringRes val title: Int,
+    @DrawableRes val icon: Int,
 ) {
     data object HeroesList : Destinations(
         route = HEROES_LIST_ROUTE,
-        title = "Heroes",
-        icon = Icons.Outlined.Home
+        title = R.string.bottom_bar_tab_heroes,
+        icon = R.drawable.ic_hero,
     )
 
     data object ComicLists : Destinations(
         route = COMICS_LIST_ROUTE,
-        title = "Favorite",
-        icon = Icons.Outlined.Favorite
+        title = R.string.bottom_bar_tab_comics,
+        icon = R.drawable.ic_comics,
     )
 }

@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -47,10 +49,10 @@ private fun MhBottomBar(navController: NavHostController) {
         screens.forEach { screen ->
             NavigationBarItem(
                 label = {
-                    Text(text = screen.title!!)
+                    Text(text = stringResource(id = screen.title))
                 },
                 icon = {
-                    Icon(imageVector = screen.icon!!, contentDescription = "")
+                    Icon(painter = painterResource(id = screen.icon), contentDescription = "")
                 },
                 selected = currentRoute == screen.route,
                 onClick = {
