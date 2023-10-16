@@ -11,6 +11,5 @@ data class HeroEntity(
     @PrimaryKey
     val id: Int,
     val name: String,
-    val thumbnailPath: String,
-    val thumbnailExtension: String
+    val thumbnailUrl: String,
 )

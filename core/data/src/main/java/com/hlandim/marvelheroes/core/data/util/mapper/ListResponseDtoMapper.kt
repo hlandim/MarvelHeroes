@@ -11,7 +11,6 @@ fun ListResponseDto.toHeroEntityList(): List<HeroEntity> = data.results.map {
     HeroEntity(
         id = it.id,
         name = it.name,
-        thumbnailPath = it.thumbnail.path,
-        thumbnailExtension = it.thumbnail.extension
+        thumbnailUrl = with(it.thumbnail) { "$path.$extension" },
     )
 }

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "982f6535ea25b468a8f9c2b20a1c5a8d",
+    "identityHash": "90ba3dbb1d086d994c5d935712b4382d",
     "entities": [
       {
         "tableName": "hero",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `thumbnailPath` TEXT NOT NULL, `thumbnailExtension` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `thumbnailUrl` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,14 +21,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "thumbnailPath",
-            "columnName": "thumbnailPath",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "thumbnailExtension",
-            "columnName": "thumbnailExtension",
+            "fieldPath": "thumbnailUrl",
+            "columnName": "thumbnailUrl",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -46,7 +40,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '982f6535ea25b468a8f9c2b20a1c5a8d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90ba3dbb1d086d994c5d935712b4382d')"
     ]
   }
 }

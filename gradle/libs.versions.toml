@@ -106,6 +106,7 @@ io-insert-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin
 io-insert-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 io-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 org-jetbrains-kotlinx-collections-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
+io-coil-kt-coil-compose = "io.coil-kt:coil-compose:2.4.0"
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradle" }

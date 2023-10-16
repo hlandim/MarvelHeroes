@@ -1,19 +1,30 @@
 package com.hlandim.marvelheroes.feature.heroesList
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.ui.component.ErrorDialog
 import com.hlandim.marvelheroes.ui.component.MhLoading
@@ -66,13 +77,20 @@ private fun HeroesGridList(
     heroes: List<Hero>,
     onHeroClicked: (String) -> Unit,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 128.dp),
-        modifier = Modifier.fillMaxSize()
+//    val configuration = LocalConfiguration.current
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(minSize = 128.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(5.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalItemSpacing = 4.dp,
     ) {
         items(heroes) {
             HeroCard(
-                modifier = Modifier.clickable { onHeroClicked(it.id.toString()) },
+                modifier = Modifier
+                    .clickable { onHeroClicked(it.id.toString()) }
+                    .fillMaxSize(),
                 hero = it,
             )
         }
@@ -84,7 +102,28 @@ private fun HeroCard(
     modifier: Modifier,
     hero: Hero,
 ) {
-    Card(modifier) {
-        Text(text = hero.name)
+    Card(
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(2.dp),
+    ) {
+        Column {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(hero.thumbnailUrl)
+                    .crossfade(true)
+                    .scale(Scale.FILL)
+                    .build(),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Text(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = hero.name,
+            )
+        }
     }
 }

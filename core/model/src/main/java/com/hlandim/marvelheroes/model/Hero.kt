@@ -6,5 +6,5 @@ package com.hlandim.marvelheroes.model
 data class Hero(
     val id: Int,
     val name: String,
-    val thumbnail: Thumbnail
+    val thumbnailUrl: String,
 )
