@@ -2,27 +2,34 @@ package com.hlandim.marvelheroes.core.data.repository
 
 import com.hlandim.marvelheroes.core.data.util.DataResponse
 import com.hlandim.marvelheroes.network.util.NetworkCheck
-import kotlinx.coroutines.flow.FlowCollector
 import retrofit2.HttpException
+import retrofit2.Response
 
 class NoConnectionException : Throwable("No Connection Available!")
 open class BaseRepository(private val networkCheck: NetworkCheck) {
 
     @Suppress("TooGenericExceptionCaught")
-    suspend fun <T, B> FlowCollector<DataResponse<T>>.handleApiCall(
-        apiCallWork: suspend () -> B,
-        onSuccess: suspend (B?) -> Unit,
-    ) {
-        try {
-            val response = apiCallWork()
-            onSuccess(response)
+    suspend fun <T : Any> handleApi(
+        execute: suspend () -> Response<T>,
+    ): DataResponse<T> {
+        return try {
+            val response = execute()
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                DataResponse.Success(body)
+            } else {
+                DataResponse.Error(
+                    code = response.code(),
+                    message = response.message(),
+                )
+            }
         } catch (e: HttpException) {
-            emit(DataResponse.Error(message = e.message()))
+            DataResponse.Error(code = e.code(), message = e.message())
         } catch (e: Throwable) {
             if (!networkCheck.isOnline()) {
-                emit(DataResponse.Exception(NoConnectionException()))
+                DataResponse.Exception(NoConnectionException())
             } else {
-                emit(DataResponse.Exception(e))
+                DataResponse.Exception(e)
             }
         }
     }

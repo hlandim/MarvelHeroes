@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "hero")
 data class HeroEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val name: String,
     val thumbnailUrl: String,
 )

@@ -20,62 +20,62 @@ class HeroRepositoryImpl(
 ) : BaseRepository(networkCheck), HeroRepository {
     private val dao = db.dao
 
-    override fun getHeroes(
+    override suspend fun getHeroes(
         offset: Int,
         limit: Int,
         fetchFromRemote: Boolean,
         query: String
-    ): Flow<DataResponse<List<Hero>>> {
-        return flow {
-            emit(DataResponse.Loading())
-            val localEntries = dao.searchHero(
+    ): DataResponse<List<Hero>> {
+        val localEntries = dao.searchHero(
+            offset = offset,
+            limit = limit,
+            query = query
+        )
+
+        val isDbEmpty = localEntries.isEmpty() && query.isBlank()
+        val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
+        if (shouldJustLoadFromCache) {
+            return DataResponse.Success(
+                data = localEntries.map { it.toHero() }
+            )
+        }
+        val remoteEntries = handleApi {
+            api.getHeroes(
                 offset = offset,
                 limit = limit,
-                query = query
+                nameStartsWith = query.ifBlank { null },
             )
-            emit(
-                DataResponse.Success(
-                    data = localEntries.map { it.toHero() }
-                )
+        }
+        return when (remoteEntries) {
+            is DataResponse.Error -> DataResponse.Error(
+                dao.searchHero(
+                    offset = offset,
+                    limit = limit,
+                    query = query
+                ).map { heroEntity -> heroEntity.toHero() },
+                remoteEntries.code,
+                remoteEntries.message
             )
 
-            val isDbEmpty = localEntries.isEmpty() && query.isBlank()
-            val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
-            if (shouldJustLoadFromCache) {
-                return@flow
-            }
-            handleApiCall(
-                apiCallWork = {
-                    api.getHeroes(
+            is DataResponse.Exception -> DataResponse.Exception(remoteEntries.e)
+            is DataResponse.Success -> {
+                remoteEntries.data?.let { responseDto ->
+                    dao.clearHeroes(responseDto.data.results.map { it.id })
+                    dao.insertHeroes(responseDto.toHeroEntityList())
+                }
+                DataResponse.Success(
+                    dao.searchHero(
                         offset = offset,
                         limit = limit,
-                        nameStartsWith = query.ifBlank { null }
-                    )
-                },
-                onSuccess = { remoteEntries ->
-                    if (remoteEntries == null) {
-                        emit(DataResponse.Error(message = "No heroes found"))
-                    } else {
-                        dao.clearHeroes(remoteEntries.data.results.map { it.id })
-                        dao.insertHeroes(remoteEntries.toHeroEntityList())
-                        emit(
-                            DataResponse.Success(
-                                data = dao.searchHero(
-                                    offset = offset,
-                                    limit = limit,
-                                    query = query
-                                ).map { heroEntity -> heroEntity.toHero() }
-                            )
-                        )
-                    }
-                },
-            )
+                        query = query
+                    ).map { heroEntity -> heroEntity.toHero() }
+                )
+            }
         }
     }
 
     override fun getHero(id: Int): Flow<DataResponse<Hero>> {
         return flow {
-            emit(DataResponse.Loading())
             val heroDb = dao.searchHeroById(id)
             emit(DataResponse.Success(data = heroDb.toHero()))
         }

@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.Flow
  * Created by Hugo Santos on 20/09/2023.
  */
 interface HeroRepository {
-    fun getHeroes(
+    suspend fun getHeroes(
         offset: Int,
         limit: Int,
         fetchFromRemote: Boolean,
         query: String
-    ): Flow<DataResponse<List<Hero>>>
+    ): DataResponse<List<Hero>>
 
     fun getHero(id: Int): Flow<DataResponse<Hero>>
 }

@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -14,12 +15,16 @@ private const val ANIMATION_LABEL = "SHIMMER_ANIMATION"
 
 @Suppress("MagicNumber")
 @Composable
-fun shimmerBrush(showShimmer: Boolean = true, targetValue: Float = 1000f): Brush {
+fun shimmerBrush(
+    showShimmer: Boolean = true,
+    targetValue: Float = 1000f,
+    color: Color = MaterialTheme.colorScheme.secondary
+): Brush {
     return if (showShimmer) {
         val shimmerColors = listOf(
-            Color.LightGray.copy(alpha = 0.6f),
-            Color.LightGray.copy(alpha = 0.2f),
-            Color.LightGray.copy(alpha = 0.6f),
+            color.copy(alpha = 0.6f),
+            color.copy(alpha = 0.2f),
+            color.copy(alpha = 0.6f),
         )
 
         val transition = rememberInfiniteTransition(ANIMATION_LABEL)

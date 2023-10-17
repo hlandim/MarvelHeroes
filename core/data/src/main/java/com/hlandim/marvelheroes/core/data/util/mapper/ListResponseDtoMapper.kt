@@ -9,7 +9,6 @@ import com.hlandim.marvelheroes.network.dto.ListResponseDto
 
 fun ListResponseDto.toHeroEntityList(): List<HeroEntity> = data.results.map {
     HeroEntity(
-        id = it.id,
         name = it.name,
         thumbnailUrl = with(it.thumbnail) { "$path.$extension" },
     )

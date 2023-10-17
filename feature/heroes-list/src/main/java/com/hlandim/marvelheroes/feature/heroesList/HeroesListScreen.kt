@@ -1,17 +1,19 @@
 package com.hlandim.marvelheroes.feature.heroesList
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
@@ -24,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -32,8 +35,8 @@ import coil.size.Scale
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.ui.component.ErrorDialog
 import com.hlandim.marvelheroes.ui.component.shimmerBrush
+import com.hlandim.marvelheroes.ui.theme.MhTheme
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -43,7 +46,11 @@ fun HeroesListRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Surface(Modifier.fillMaxSize()) {
-        HeroesListScreen(uiState = uiState, onHeroClicked = onHeroClicked)
+        HeroesListScreen(
+            uiState = uiState,
+            onHeroClicked = onHeroClicked,
+            onFetchNextPage = viewModel::fetchNextListPage,
+        )
     }
 }
 
@@ -51,30 +58,21 @@ fun HeroesListRoute(
 private fun HeroesListScreen(
     uiState: HeroesListUiState,
     onHeroClicked: (String) -> Unit,
+    onFetchNextPage: () -> Unit
 ) {
     Box(Modifier.fillMaxSize()) {
-        when (uiState) {
-            is HeroesListUiState.Error -> {
-                uiState.heroes?.let {
-                    HeroesGridList(
-                        heroes = it,
-                        onHeroClicked = onHeroClicked,
-                    )
-                }
-                ErrorDialog(
-                    message = uiState.message.asString(),
-                    onDismissRequest = { /*TODO*/ },
-                    onConfirmClicked = { /*TODO*/ }
-                )
-            }
-
-            is HeroesListUiState.Found -> HeroesGridList(
-                heroes = uiState.heroes,
-                onHeroClicked = onHeroClicked,
-            )
-
-            HeroesListUiState.Loading -> HeroesGridList(
-                heroes = remember { persistentListOf() }
+        HeroesGridList(
+            heroes = uiState.heroes,
+            onHeroClicked = onHeroClicked,
+            onFetchNextPage = onFetchNextPage,
+            isLoadingNextPage = uiState.isLoadingNextPage,
+            endReached = uiState.endReached,
+        )
+        uiState.genericErrorMsg?.let {
+            ErrorDialog(
+                message = it.asString(),
+                onDismissRequest = { /*TODO*/ },
+                onConfirmClicked = { /*TODO*/ },
             )
         }
     }
@@ -84,7 +82,11 @@ private fun HeroesListScreen(
 private fun HeroesGridList(
     heroes: ImmutableList<Hero>,
     onHeroClicked: (String) -> Unit = {},
+    onFetchNextPage: () -> Unit,
+    endReached: Boolean,
+    isLoadingNextPage: Boolean,
 ) {
+    val size = if (heroes.isNotEmpty()) heroes.size else PAGING_SIZE
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Adaptive(minSize = minCardHeight),
         modifier = Modifier
@@ -93,17 +95,27 @@ private fun HeroesGridList(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalItemSpacing = 4.dp,
     ) {
-        if (heroes.isEmpty()) {
-            items(PAGING_SIZE) {
-                HeroCardLoading()
+        items(size) { index ->
+            if (index >= size - 1 && !endReached && !isLoadingNextPage) {
+                onFetchNextPage()
             }
-        } else {
-            items(heroes) {
+            val hero = if (index <= heroes.size - 1) heroes[index] else null
+            HeroCard(
+                modifier = Modifier
+                    .clickable {
+                        hero?.let {
+                            onHeroClicked(it.id.toString())
+                        }
+                    }
+                    .fillMaxSize(),
+                hero = hero,
+            )
+        }
+        if (isLoadingNextPage) {
+            item {
                 HeroCard(
-                    modifier = Modifier
-                        .clickable { onHeroClicked(it.id.toString()) }
-                        .fillMaxSize(),
-                    hero = it,
+                    modifier = Modifier.fillMaxSize(),
+                    hero = null,
                 )
             }
         }
@@ -113,60 +125,59 @@ private fun HeroesGridList(
 @Composable
 private fun HeroCard(
     modifier: Modifier,
-    hero: Hero,
+    hero: Hero? = null,
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .defaultMinSize(minHeight = minCardHeight)
+            .animateContentSize(),
         elevation = CardDefaults.cardElevation(2.dp),
     ) {
-        Column {
-            val showShimmer = remember { mutableStateOf(true) }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(hero.thumbnailUrl)
-                    .crossfade(true)
-                    .scale(Scale.FILL)
-                    .build(),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = minCardHeight)
-                    .background(
-                        shimmerBrush(
-                            targetValue = 1300f,
-                            showShimmer = showShimmer.value,
-                        )
-                    ),
-                onSuccess = { showShimmer.value = false },
-            )
-            Text(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth()
-                    .background(
-                        shimmerBrush(
-                            targetValue = 1300f,
-                            showShimmer = showShimmer.value,
-                        )
-                    ),
-                textAlign = TextAlign.Center,
-                text = hero.name,
-            )
+        if (hero == null) {
+            PlaceholderCardLoading()
+        } else {
+            val isLoading = remember { mutableStateOf(true) }
+            Column {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current).data(hero.thumbnailUrl)
+                        .crossfade(true).scale(Scale.FILL).build(),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .heightIn(min = minCardHeight)
+                        .background(
+                            shimmerBrush(
+                                targetValue = 1300f,
+                                showShimmer = isLoading.value,
+                            )
+                        ),
+                    onSuccess = {
+                        isLoading.value = false
+                    },
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = hero.name,
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun HeroCardLoading() {
-    Card(
-        modifier = Modifier.fillMaxSize(),
-        elevation = CardDefaults.cardElevation(2.dp),
+private fun PlaceholderCardLoading() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(minCardHeight)
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = minCardHeight)
+                .fillMaxSize()
                 .background(
                     shimmerBrush(
                         targetValue = 1300f,
@@ -185,6 +196,16 @@ private fun HeroCardLoading() {
                     )
                 )
         )
+    }
+}
+
+@Preview
+@Composable
+private fun HeroesListScreenPreview() {
+    MhTheme {
+        Surface {
+            HeroesListScreen(uiState = HeroesListUiState(), onHeroClicked = {}) {}
+        }
     }
 }
 

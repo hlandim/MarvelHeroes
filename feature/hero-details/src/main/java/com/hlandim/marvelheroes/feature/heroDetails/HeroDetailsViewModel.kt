@@ -39,7 +39,6 @@ class HeroDetailsViewModel(
                             )
                         )
 
-                        is DataResponse.Loading -> HeroDetailsUiState.Loading
                         is DataResponse.Success -> HeroDetailsUiState.Found(resource.data!!)
                     }
                 )

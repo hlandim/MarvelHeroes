@@ -1,6 +1,7 @@
 package com.hlandim.marvelheroes.network
 
 import com.hlandim.marvelheroes.network.dto.ListResponseDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,7 +14,7 @@ interface MarvelApi {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
         @Query("nameStartsWith") nameStartsWith: String? = null,
-    ): ListResponseDto
+    ): Response<ListResponseDto>
 
     @GET(CHARACTERS_ENDPOINT)
     suspend fun getHero(

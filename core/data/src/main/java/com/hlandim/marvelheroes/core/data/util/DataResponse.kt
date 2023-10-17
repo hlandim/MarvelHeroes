@@ -7,7 +7,5 @@ sealed class DataResponse<T> {
     data class Success<T>(val data: T?) : DataResponse<T>()
     data class Error<T>(val data: T? = null, val code: Int? = null, val message: String) :
         DataResponse<T>()
-
-    class Loading<T> : DataResponse<T>()
     data class Exception<T>(val e: Throwable) : DataResponse<T>()
 }
