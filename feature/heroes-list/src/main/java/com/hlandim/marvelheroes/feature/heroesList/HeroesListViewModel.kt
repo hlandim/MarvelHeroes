@@ -73,7 +73,14 @@ class HeroesListViewModel(
         fetchNextListPage()
     }
 
-    fun fetchNextListPage() {
+    fun onUiEvent(event: HeroesListUiEvent) {
+        when (event) {
+            HeroesListUiEvent.FetchNextListPage -> fetchNextListPage()
+            HeroesListUiEvent.OnErrorDismissed -> updateState { copy(genericErrorMsg = null) }
+        }
+    }
+
+    private fun fetchNextListPage() {
         viewModelScope.launch(dispatcher) {
             pagingManger.loadNextItems()
         }

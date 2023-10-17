@@ -18,7 +18,7 @@ private const val ANIMATION_LABEL = "SHIMMER_ANIMATION"
 fun shimmerBrush(
     showShimmer: Boolean = true,
     targetValue: Float = 1000f,
-    color: Color = MaterialTheme.colorScheme.secondary
+    color: Color = MaterialTheme.colorScheme.onPrimary
 ): Brush {
     return if (showShimmer) {
         val shimmerColors = listOf(
