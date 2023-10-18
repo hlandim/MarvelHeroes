@@ -80,9 +80,9 @@ private fun HeroesGridList(
         columns = StaggeredGridCells.Adaptive(minSize = minMhCardHeight),
         modifier = Modifier
             .fillMaxSize()
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalItemSpacing = 4.dp,
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalItemSpacing = 12.dp,
     ) {
         items(size, key = { it }) { index ->
             if (index >= size - 1 && !endReached && !isLoadingNextPage) {

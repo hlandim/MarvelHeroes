@@ -7,8 +7,6 @@ import com.hlandim.marvelheroes.database.HeroDatabase
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.network.MarvelApi
 import com.hlandim.marvelheroes.network.util.NetworkCheck
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 /**
  * Created by Hugo Santos on 20/09/2023.
@@ -74,10 +72,8 @@ class HeroRepositoryImpl(
         }
     }
 
-    override fun getHero(id: Int): Flow<DataResponse<Hero>> {
-        return flow {
-            val heroDb = dao.searchHeroById(id)
-            emit(DataResponse.Success(data = heroDb.toHero()))
-        }
+    override suspend fun getHero(id: Int): Hero {
+        val heroDb = dao.searchHeroById(id)
+        return heroDb.toHero()
     }
 }

@@ -13,6 +13,7 @@ dependencies {
     api(libs.androidx.compose.ui.tooling.preview)
     api(libs.org.jetbrains.kotlinx.collections.immutable)
     api(libs.io.coil.kt.coil.compose)
+    api("androidx.palette:palette:1.0.0")
 
     debugApi(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.activity.compose)
