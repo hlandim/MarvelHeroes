@@ -16,6 +16,7 @@ detekt = "1.23.1"
 gradle = "8.1.2"
 gradle-versions = "0.48.0"
 junit4 = "4.13.2"
+junit5 = "5.10.0"
 klint = "11.6.0"
 kotlin = "1.9.10"
 kotlinxCoroutines = "1.7.3"
@@ -107,6 +108,10 @@ io-insert-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", versi
 io-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 org-jetbrains-kotlinx-collections-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
 io-coil-kt-coil-compose = "io.coil-kt:coil-compose:2.4.0"
+io-kotest-kotest-runner-junit5 = "io.kotest:kotest-runner-junit5:5.7.2"
+org-junit-jupiter-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+org-junit-jupiter-junit-jupiter-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradle" }

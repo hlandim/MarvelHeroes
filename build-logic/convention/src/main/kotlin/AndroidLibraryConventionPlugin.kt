@@ -19,6 +19,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             apply(libs.findPlugin("org-jetbrains-kotlin-android").get().get().pluginId)
             apply("hlandim.android.lint")
             apply("hlandim.android.detekt")
+            apply("hlandim.android.unitTest")
             apply(libs.findPlugin("org-jetbrains-kotlin-kapt").get().get().pluginId)
         }
 

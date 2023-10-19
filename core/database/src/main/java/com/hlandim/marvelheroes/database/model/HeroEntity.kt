@@ -12,4 +12,9 @@ data class HeroEntity(
     val id: Int = 0,
     val name: String,
     val thumbnailUrl: String,
+    val vibrantColorRgb: Int? = null,
+    val darkVibrantColorRgb: Int? = null,
+    val lightMutedColorRgb: Int? = null,
+    val mutedColorRgb: Int? = null,
+    val darkMutedColorRgb: Int? = null,
 )

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.hlandim.marvelheroes.database.model.HeroEntity
 
 /**
@@ -12,9 +13,6 @@ import com.hlandim.marvelheroes.database.model.HeroEntity
 @Dao
 interface HeroDao {
 
-    @Query("SELECT * FROM hero ORDER BY name ASC")
-    suspend fun getAll(): List<HeroEntity>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHeroes(
         heroes: List<HeroEntity>
@@ -22,6 +20,9 @@ interface HeroDao {
 
     @Query("DELETE FROM hero")
     suspend fun clearHeroes()
+
+    @Update
+    suspend fun updateHero(heroEntity: HeroEntity)
 
     @Query("DELETE FROM hero where id in (:ids)")
     suspend fun clearHeroes(ids: List<Int>)
@@ -35,7 +36,7 @@ interface HeroDao {
              OFFSET :offset
         """
     )
-    suspend fun searchHero(
+    suspend fun searchHeroes(
         offset: Int,
         limit: Int,
         query: String

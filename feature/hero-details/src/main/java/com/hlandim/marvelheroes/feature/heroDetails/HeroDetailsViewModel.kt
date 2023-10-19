@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.feature.heroDetails.navigation.HeroDetailsArgs
+import com.hlandim.marvelheroes.model.HeroColors
 import com.hlandim.marvelheroes.ui.util.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,7 +35,21 @@ class HeroDetailsViewModel(
             viewModelScope.launch {
                 Palette.from(event.thumbnail.copy(Bitmap.Config.RGBA_F16, true))
                     .generate { palette ->
-                        updateState { copy(paletteColors = palette) }
+                        _uiState.value.hero?.let {
+                            val updatedHero = it.copy(
+                                heroColors = HeroColors(
+                                    vibrantColorRgb = palette?.vibrantSwatch?.rgb,
+                                    darkVibrantColorRgb = palette?.darkVibrantSwatch?.rgb,
+                                    lightMutedColorRgb = palette?.lightMutedSwatch?.rgb,
+                                    mutedColorRgb = palette?.mutedSwatch?.rgb,
+                                    darkMutedColorRgb = palette?.darkMutedSwatch?.rgb
+                                )
+                            )
+                            viewModelScope.launch {
+                                heroRepository.updateHero(updatedHero)
+                                updateState { copy(hero = updatedHero) }
+                            }
+                        }
                     }
             }
         }

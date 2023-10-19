@@ -7,4 +7,13 @@ data class Hero(
     val id: Int,
     val name: String,
     val thumbnailUrl: String,
+    val heroColors: HeroColors,
+)
+
+data class HeroColors(
+    val vibrantColorRgb: Int? = null,
+    val darkVibrantColorRgb: Int? = null,
+    val lightMutedColorRgb: Int? = null,
+    val mutedColorRgb: Int? = null,
+    val darkMutedColorRgb: Int? = null,
 )

@@ -2,8 +2,9 @@ package com.hlandim.marvelheroes.core.data.repository
 
 import com.hlandim.marvelheroes.core.data.util.DataResponse
 import com.hlandim.marvelheroes.core.data.util.mapper.toHero
+import com.hlandim.marvelheroes.core.data.util.mapper.toHeroEntity
 import com.hlandim.marvelheroes.core.data.util.mapper.toHeroEntityList
-import com.hlandim.marvelheroes.database.HeroDatabase
+import com.hlandim.marvelheroes.database.MarvelHeroesDatabase
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.network.MarvelApi
 import com.hlandim.marvelheroes.network.util.NetworkCheck
@@ -13,10 +14,10 @@ import com.hlandim.marvelheroes.network.util.NetworkCheck
  */
 class HeroRepositoryImpl(
     private val api: MarvelApi,
-    db: HeroDatabase,
+    db: MarvelHeroesDatabase,
     networkCheck: NetworkCheck
 ) : BaseRepository(networkCheck), HeroRepository {
-    private val dao = db.dao
+    private val dao = db.heroDao
 
     override suspend fun getHeroes(
         offset: Int,
@@ -24,7 +25,7 @@ class HeroRepositoryImpl(
         fetchFromRemote: Boolean,
         query: String
     ): DataResponse<List<Hero>> {
-        val localEntries = dao.searchHero(
+        val localEntries = dao.searchHeroes(
             offset = offset,
             limit = limit,
             query = query
@@ -46,7 +47,7 @@ class HeroRepositoryImpl(
         }
         return when (remoteEntries) {
             is DataResponse.Error -> DataResponse.Error(
-                dao.searchHero(
+                dao.searchHeroes(
                     offset = offset,
                     limit = limit,
                     query = query
@@ -62,7 +63,7 @@ class HeroRepositoryImpl(
                     dao.insertHeroes(responseDto.toHeroEntityList())
                 }
                 DataResponse.Success(
-                    dao.searchHero(
+                    dao.searchHeroes(
                         offset = offset,
                         limit = limit,
                         query = query
@@ -75,5 +76,9 @@ class HeroRepositoryImpl(
     override suspend fun getHero(id: Int): Hero {
         val heroDb = dao.searchHeroById(id)
         return heroDb.toHero()
+    }
+
+    override suspend fun updateHero(hero: Hero) {
+        dao.updateHero(hero.toHeroEntity())
     }
 }

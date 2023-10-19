@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hlandim.marvelheroes.model.Hero
+import com.hlandim.marvelheroes.model.HeroColors
 import com.hlandim.marvelheroes.ui.component.ErrorDialog
 import com.hlandim.marvelheroes.ui.component.MhGridCard
 import com.hlandim.marvelheroes.ui.component.minMhCardHeight
@@ -128,36 +129,43 @@ private fun HeroesListScreenPreview() {
                             id = 1771,
                             name = "Osvaldo Morton",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                         Hero(
                             id = 9300,
                             name = "Zachary Pruitt",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                         Hero(
                             id = 3167,
                             name = "Dionne Soto",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                         Hero(
                             id = 4280,
                             name = "Tisha Mueller",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                         Hero(
                             id = 7884,
                             name = "Keisha McKnight",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                         Hero(
                             id = 2230,
                             name = "Misty Carroll",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                         Hero(
                             id = 8298,
                             name = "Vera Hull",
                             thumbnailUrl = "",
+                            heroColors = HeroColors(),
                         ),
                     )
                 ),

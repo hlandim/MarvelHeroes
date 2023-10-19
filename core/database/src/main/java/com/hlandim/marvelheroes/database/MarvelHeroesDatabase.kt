@@ -12,6 +12,6 @@ import com.hlandim.marvelheroes.database.model.HeroEntity
     entities = [HeroEntity::class],
     version = 1
 )
-abstract class HeroDatabase : RoomDatabase() {
-    abstract val dao: HeroDao
+abstract class MarvelHeroesDatabase : RoomDatabase() {
+    abstract val heroDao: HeroDao
 }

@@ -15,4 +15,6 @@ interface HeroRepository {
     ): DataResponse<List<Hero>>
 
     suspend fun getHero(id: Int): Hero
+
+    suspend fun updateHero(hero: Hero)
 }
