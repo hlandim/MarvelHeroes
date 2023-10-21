@@ -24,8 +24,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,41 +71,75 @@ fun HeroDetailsRoute(
     }
 }
 
+private data class HeroTheme(
+    val backgroundColors: List<Color>? = null,
+    val cardBackgroundColor: Color? = null,
+    val textColor: Color? = null,
+)
+
+private val LocalHeroTheme = compositionLocalOf { HeroTheme() }
+
 @Composable
 private fun HeroDetailsScreen(
     uiState: HeroDetailsUiState,
     onThumbnailLoaded: (Bitmap) -> Unit,
 ) {
-    val modifier = remember {
-        mutableStateOf(
-            Modifier.fillMaxSize()
-        )
+    val heroTheme = remember {
+        mutableStateOf(HeroTheme())
     }
-    // Setting up the dynamic background colors
-    uiState.colors.let { heroColors ->
-        if (heroColors.size >= 2) {
+    uiState.hero?.heroColors?.let { heroColors ->
+        val isDarKMode = isSystemInDarkTheme()
+        LaunchedEffect(key1 = isDarKMode) {
+            val (cardBackgroundColor, textColorTmp) = if (isDarKMode) {
+                Pair(heroColors.darkMutedColorRgb, heroColors.lightMutedColorRgb)
+            } else {
+                Pair(heroColors.lightMutedColorRgb, heroColors.darkMutedColorRgb)
+            }
+            val allColors = mutableListOf<Color>().apply {
+                heroColors.lightMutedColorRgb?.let { add(Color(it)) }
+                heroColors.darkMutedColorRgb?.let { add(Color(it)) }
+                heroColors.mutedColorRgb?.let { add(Color(it)) }
+                heroColors.vibrantColorRgb?.let { add(Color(it)) }
+                heroColors.darkVibrantColorRgb?.let { add(Color(it)) }
+            }
+            heroTheme.value = HeroTheme(
+                backgroundColors = if (allColors.size >= 2) allColors.subList(0, 2) else null,
+                cardBackgroundColor = if (cardBackgroundColor != null) Color(cardBackgroundColor) else null,
+                textColor = if (textColorTmp != null) Color(textColorTmp) else null,
+            )
+        }
+    }
+
+    CompositionLocalProvider(LocalHeroTheme provides heroTheme.value) {
+        val modifier = remember {
+            mutableStateOf(
+                Modifier.fillMaxSize()
+            )
+        }
+        // Setting up the dynamic background colors
+        LocalHeroTheme.current.backgroundColors?.let { backgroundColors ->
             LaunchedEffect(key1 = Unit) {
                 modifier.value = modifier.value.background(
                     brush = Brush.linearGradient(
-                        colors = heroColors.subList(0, 2),
+                        colors = backgroundColors,
                         start = Offset(0f, Float.POSITIVE_INFINITY),
                         end = Offset(Float.POSITIVE_INFINITY, 0f)
                     )
                 )
             }
         }
-    }
-    Box(
-        modifier = modifier.value,
-    ) {
-        HeroImage(
-            Modifier
-                .align(Alignment.TopCenter)
-                .height(heroImageHeight),
-            uiState,
-            onThumbnailLoaded,
-        )
-        HeroDetailsContent(uiState)
+        Box(
+            modifier = modifier.value,
+        ) {
+            HeroImage(
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .height(heroImageHeight),
+                uiState,
+                onThumbnailLoaded,
+            )
+            HeroDetailsContent(uiState)
+        }
     }
 }
 
@@ -113,10 +148,9 @@ private fun HeroDetailsContent(uiState: HeroDetailsUiState) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(12.dp)
     ) {
         with(uiState) {
-            HeroDetailsCard(this)
+            HeroDetailsCards(this)
             if (isLoading) {
                 CircularProgressIndicator()
             }
@@ -182,60 +216,46 @@ private fun HeroImage(
 
 @Composable
 @Suppress("MagicNumber")
-private fun HeroDetailsCard(
+private fun HeroDetailsCards(
     uiState: HeroDetailsUiState,
 ) {
-    val modifier = remember {
-        mutableStateOf(
-            Modifier.fillMaxWidth()
-        )
-    }
+    val textColor =
+        LocalHeroTheme.current.textColor ?: MaterialTheme.colorScheme.onSecondaryContainer
+    val backgroundColor =
+        LocalHeroTheme.current.cardBackgroundColor ?: MaterialTheme.colorScheme.secondaryContainer
 
-    var textColor = MaterialTheme.colorScheme.onSecondaryContainer
-    uiState.hero?.heroColors?.let {
-        val isDarKMode = isSystemInDarkTheme()
-        LaunchedEffect(key1 = isDarKMode) {
-            val (backgroundColor, textColorTmp) = if (isDarKMode) {
-                Pair(it.darkMutedColorRgb, it.lightMutedColorRgb)
-            } else {
-                Pair(it.lightMutedColorRgb, it.darkMutedColorRgb)
-            }
-            textColorTmp?.let { colorRgb ->
-                textColor = Color(colorRgb)
-            }
-            backgroundColor?.let { colorRgb ->
-                modifier.value = modifier.value.background(color = Color(colorRgb))
-            }
-        }
-    }
+    val cardModifier = Modifier
+        .fillMaxWidth()
+        .background(backgroundColor)
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp)
+            .fillMaxSize()
+            .padding(horizontal = 24.dp)
             .verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(heroImageHeight - (heroImageHeight.div(2.5f))))
-        HeroInfoCard(modifier, uiState, textColor)
+        HeroInfoCard(cardModifier, uiState, textColor)
         Spacer(modifier = Modifier.height(24.dp))
-        SeriesCard(modifier, uiState, textColor)
+        SeriesCard(cardModifier, uiState, textColor)
         Spacer(modifier = Modifier.height(24.dp))
-        EventsCard(modifier, uiState, textColor)
+        EventsCard(cardModifier, uiState, textColor)
         Spacer(modifier = Modifier.height(24.dp))
-        ComicsCard(modifier, uiState, textColor)
+        ComicsCard(cardModifier, uiState, textColor)
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
 @Composable
 private fun HeroInfoCard(
-    modifier: MutableState<Modifier>,
+    modifier: Modifier,
     uiState: HeroDetailsUiState,
     textColor: Color
 ) {
     Card(
         elevation = CardDefaults.cardElevation(heroDetailsCardElevation)
     ) {
-        Column(modifier = modifier.value.padding(12.dp)) {
+        Column(modifier = modifier.padding(12.dp)) {
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
@@ -248,14 +268,14 @@ private fun HeroInfoCard(
 
 @Composable
 private fun SeriesCard(
-    modifier: MutableState<Modifier>,
+    modifier: Modifier,
     uiState: HeroDetailsUiState,
     textColor: Color
 ) {
     Card(
         elevation = CardDefaults.cardElevation(heroDetailsCardElevation)
     ) {
-        Column(modifier = modifier.value.padding(12.dp)) {
+        Column(modifier = modifier.padding(12.dp)) {
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
@@ -268,14 +288,14 @@ private fun SeriesCard(
 
 @Composable
 private fun EventsCard(
-    modifier: MutableState<Modifier>,
+    modifier: Modifier,
     uiState: HeroDetailsUiState,
     textColor: Color
 ) {
     Card(
         elevation = CardDefaults.cardElevation(heroDetailsCardElevation)
     ) {
-        Column(modifier = modifier.value.padding(12.dp)) {
+        Column(modifier = modifier.padding(12.dp)) {
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
@@ -288,14 +308,14 @@ private fun EventsCard(
 
 @Composable
 private fun ComicsCard(
-    modifier: MutableState<Modifier>,
+    modifier: Modifier,
     uiState: HeroDetailsUiState,
     textColor: Color
 ) {
     Card(
         elevation = CardDefaults.cardElevation(heroDetailsCardElevation)
     ) {
-        Column(modifier = modifier.value.padding(12.dp)) {
+        Column(modifier = modifier.padding(12.dp)) {
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
             Text(text = uiState.hero?.name.orEmpty(), color = textColor)
