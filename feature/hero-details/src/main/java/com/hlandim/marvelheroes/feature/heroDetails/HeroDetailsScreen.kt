@@ -41,6 +41,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -52,11 +53,10 @@ import com.hlandim.marvelheroes.ui.component.ErrorDialog
 import com.hlandim.marvelheroes.ui.component.shimmerBrush
 import com.hlandim.marvelheroes.ui.theme.MhTheme
 import com.hlandim.marvelheroes.ui.util.LightDarkPreview
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HeroDetailsRoute(
-    viewModel: HeroDetailsViewModel = koinViewModel(),
+    viewModel: HeroDetailsViewModel = hiltViewModel(),
 ) {
     val uiState: HeroDetailsUiState by viewModel.uiState.collectAsStateWithLifecycle()
     Surface(Modifier.fillMaxSize()) {

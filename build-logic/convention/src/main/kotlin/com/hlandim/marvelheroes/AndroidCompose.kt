@@ -2,7 +2,6 @@ package com.hlandim.marvelheroes
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
@@ -18,7 +17,7 @@ internal fun Project.configureAndroidCompose(
             compose = true
         }
 
-        val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+        val libs = versionCatalog()
         composeOptions {
             kotlinCompilerExtensionVersion =
                 libs.findVersion("androidx-compose-compile-version").get().toString()
@@ -32,7 +31,6 @@ internal fun Project.configureAndroidCompose(
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
 
-            add("implementation", libs.findLibrary("io-insert-koin-androidx-compose").get())
             add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
             add("implementation", libs.findLibrary("androidx.navigation.navigation.compose").get())

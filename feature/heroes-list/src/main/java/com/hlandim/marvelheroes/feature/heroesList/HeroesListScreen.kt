@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.model.HeroColors
@@ -24,11 +25,10 @@ import com.hlandim.marvelheroes.ui.component.minMhCardHeight
 import com.hlandim.marvelheroes.ui.theme.MhTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HeroesListRoute(
-    viewModel: HeroesListViewModel = koinViewModel(),
+    viewModel: HeroesListViewModel = hiltViewModel(),
     onHeroClicked: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

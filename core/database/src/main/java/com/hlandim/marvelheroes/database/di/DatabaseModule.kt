@@ -1,17 +1,26 @@
 package com.hlandim.marvelheroes.database.di
 
+import android.content.Context
 import androidx.room.Room
 import com.hlandim.marvelheroes.database.MarvelHeroesDatabase
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.module.Module
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val databaseModule: Module = module {
-    single<MarvelHeroesDatabase> {
-        Room.databaseBuilder(
-            androidContext(),
-            MarvelHeroesDatabase::class.java,
-            "herodb.db"
-        ).build()
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+object DatabaseModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ) = Room.databaseBuilder(
+        context,
+        MarvelHeroesDatabase::class.java,
+        "herodb.db"
+    ).build()
 }

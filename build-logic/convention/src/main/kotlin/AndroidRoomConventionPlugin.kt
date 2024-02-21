@@ -1,7 +1,7 @@
 import com.google.devtools.ksp.gradle.KspExtension
+import com.hlandim.marvelheroes.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
@@ -13,7 +13,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+            val libs = versionCatalog()
             pluginManager.apply(libs.findPlugin("com-google-devtools-ksp").get().get().pluginId)
 
             extensions.configure(KspExtension::class.java) {

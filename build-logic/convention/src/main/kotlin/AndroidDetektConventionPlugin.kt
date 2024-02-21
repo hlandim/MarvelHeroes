@@ -1,9 +1,9 @@
 import com.hlandim.marvelheroes.Config
+import com.hlandim.marvelheroes.versionCatalog
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
@@ -11,7 +11,7 @@ import org.gradle.kotlin.dsl.withType
 class AndroidDetektConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+            val libs = versionCatalog()
             pluginManager.apply("io.gitlab.arturbosch.detekt")
 
             extensions.configure(DetektExtension::class.java) {
@@ -44,7 +44,9 @@ class AndroidDetektConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "detektPlugins"(libs.findLibrary("io-gitlab-arturbosch-detekt-detekt-formatting").get())
+                "detektPlugins"(
+                    libs.findLibrary("io-gitlab-arturbosch-detekt-detekt-formatting").get()
+                )
             }
         }
     }

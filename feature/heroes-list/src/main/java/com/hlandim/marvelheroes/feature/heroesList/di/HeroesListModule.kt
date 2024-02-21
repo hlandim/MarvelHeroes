@@ -1,19 +1,17 @@
 package com.hlandim.marvelheroes.feature.heroesList.di
 
-import com.hlandim.marvelheroes.core.data.di.dataModule
-import com.hlandim.marvelheroes.feature.heroesList.HeroesListViewModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.module.Module
-import org.koin.dsl.module
+import javax.inject.Singleton
 
-val heroesListModule: Module = module {
-    includes(dataModule)
-    single { Dispatchers.IO }
-    viewModel {
-        HeroesListViewModel(
-            heroRepository = get(),
-            dispatcher = get()
-        )
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+object HeroesListModule {
+
+    @Provides
+    @Singleton
+    fun provideDispatcher() = Dispatchers.IO
 }
