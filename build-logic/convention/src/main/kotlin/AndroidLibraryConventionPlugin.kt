@@ -5,15 +5,15 @@ import com.hlandim.marvelheroes.Config.COMPILE_SDK
 import com.hlandim.marvelheroes.Config.DEFAULT_TARGET
 import com.hlandim.marvelheroes.Config.MIN_SDK
 import com.hlandim.marvelheroes.setDefaultConfig
+import com.hlandim.marvelheroes.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+        val libs = versionCatalog()
         with(pluginManager) {
             apply(libs.findPlugin("com-android-library").get().get().pluginId)
             apply(libs.findPlugin("org-jetbrains-kotlin-android").get().get().pluginId)

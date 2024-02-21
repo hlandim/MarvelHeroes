@@ -9,14 +9,17 @@ import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.feature.heroDetails.navigation.HeroDetailsArgs
 import com.hlandim.marvelheroes.model.HeroColors
 import com.hlandim.marvelheroes.ui.util.UiText
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HeroDetailsViewModel(
+@HiltViewModel
+class HeroDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val heroRepository: HeroRepository,
+    private val heroRepository: HeroRepository,
 ) : ViewModel() {
 
     private val heroDetailsArgs: HeroDetailsArgs = HeroDetailsArgs(savedStateHandle)

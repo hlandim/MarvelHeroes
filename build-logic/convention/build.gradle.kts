@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.com.google.devtools.ksp.gradle.plugin)
     implementation(libs.org.jlleitschuh.gradle.ktlint.gradle)
     implementation(libs.io.gitlab.arturbosch.detekt.detekt.gradle.plugin)
+    implementation(libs.hilt.gradle.plugin)
 }
 
 gradlePlugin {
@@ -27,9 +28,9 @@ gradlePlugin {
             id = "hlandim.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("androidKoin") {
-            id = "hlandim.android.koin"
-            implementationClass = "AndroidKoinConventionPlugin"
+        register("androidHilt") {
+            id = "hlandim.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidRoom") {
             id = "hlandim.android.room"

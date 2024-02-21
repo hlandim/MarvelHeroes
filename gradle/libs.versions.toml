@@ -27,8 +27,9 @@ org-jetbrains-kotlin = "1.9.10"
 retrofit = "2.9.0"
 room = "2.6.0-rc01"
 version-catalog-update = "0.8.1"
-koin = "3.5.0"
 mockk = "1.13.8"
+hilt = "2.50"
+hiltExt = "1.1.0"
 
 [libraries]
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -99,12 +100,6 @@ org-jetbrains-kotlin-kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kot
 org-jetbrains-kotlin-kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "org-jetbrains-kotlin" }
 org-jetbrains-kotlin-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "org-jetbrains-kotlin" }
 org-jlleitschuh-gradle-ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "klint" }
-io-insert-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-io-insert-koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
-io-insert-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-io-insert-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-io-insert-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-io-insert-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 io-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 org-jetbrains-kotlinx-collections-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6"
 io-coil-kt-coil-compose = "io.coil-kt:coil-compose:2.4.0"
@@ -112,6 +107,10 @@ io-kotest-kotest-runner-junit5 = "io.kotest:kotest-runner-junit5:5.7.2"
 org-junit-jupiter-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 org-junit-jupiter-junit-jupiter-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-gradle-plugin = { module = "com.google.dagger.hilt.android:com.google.dagger.hilt.android.gradle.plugin", version.ref = "hilt" }
+hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltExt" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradle" }
@@ -123,3 +122,4 @@ nl-littlerobots-version-catalog-update = { id = "nl.littlerobots.version-catalog
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin" }
 org-jlleitschuh-gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "klint" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

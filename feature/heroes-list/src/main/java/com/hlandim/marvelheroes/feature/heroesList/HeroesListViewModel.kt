@@ -6,6 +6,7 @@ import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.core.data.util.DataResponse
 import com.hlandim.marvelheroes.core.data.util.pagging.PagingManagerImpl
 import com.hlandim.marvelheroes.ui.util.UiText
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -13,8 +14,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HeroesListViewModel(
+@HiltViewModel
+class HeroesListViewModel @Inject constructor(
     private val heroRepository: HeroRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {

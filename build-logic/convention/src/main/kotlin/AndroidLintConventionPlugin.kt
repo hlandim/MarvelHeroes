@@ -1,16 +1,18 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.Lint
+import com.hlandim.marvelheroes.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 
 class AndroidLintConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
-            pluginManager.apply(libs.findPlugin("org-jlleitschuh-gradle-ktlint").get().get().pluginId)
+            val libs = versionCatalog()
+            pluginManager.apply(
+                libs.findPlugin("org-jlleitschuh-gradle-ktlint").get().get().pluginId
+            )
             when {
                 pluginManager.hasPlugin("com.android.application") ->
                     configure<ApplicationExtension> { lint(Lint::configure) }

@@ -1,5 +1,6 @@
 import com.android.build.gradle.LibraryExtension
 import com.hlandim.marvelheroes.configureAndroidCompose
+import com.hlandim.marvelheroes.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -9,7 +10,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply {
                 apply("hlandim.android.library")
-                apply("hlandim.android.koin")
+                apply("hlandim.android.hilt")
             }
 
             extensions.configure(LibraryExtension::class.java) {
@@ -20,6 +21,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core:model"))
                 add("implementation", project(":core:data"))
                 add("implementation", project(":core:ui"))
+                add("implementation", versionCatalog().findLibrary("hilt-compose").get())
             }
         }
     }

@@ -8,11 +8,12 @@ import com.hlandim.marvelheroes.database.MarvelHeroesDatabase
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.network.MarvelApi
 import com.hlandim.marvelheroes.network.util.NetworkCheck
+import javax.inject.Inject
 
 /**
  * Created by Hugo Santos on 20/09/2023.
  */
-class HeroRepositoryImpl(
+class HeroRepositoryImpl @Inject constructor(
     private val api: MarvelApi,
     db: MarvelHeroesDatabase,
     networkCheck: NetworkCheck
