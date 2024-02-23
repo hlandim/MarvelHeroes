@@ -7,7 +7,7 @@ data class Hero(
     val id: Int,
     val name: String,
     val thumbnailUrl: String,
-    val heroColors: HeroColors,
+    val heroColors: HeroColors? = null,
 )
 
 data class HeroColors(

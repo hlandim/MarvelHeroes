@@ -34,27 +34,25 @@ class HeroDetailsViewModel @Inject constructor(
     }
 
     fun onUiEvent(event: HeroDetailsUiEvent) {
-        if (event is HeroDetailsUiEvent.OnHeroImageLoaded) {
-            viewModelScope.launch {
-                Palette.from(event.thumbnail.copy(Bitmap.Config.RGBA_F16, true))
-                    .generate { palette ->
-                        _uiState.value.hero?.let {
-                            val updatedHero = it.copy(
-                                heroColors = HeroColors(
-                                    vibrantColorRgb = palette?.vibrantSwatch?.rgb,
-                                    darkVibrantColorRgb = palette?.darkVibrantSwatch?.rgb,
-                                    lightMutedColorRgb = palette?.lightMutedSwatch?.rgb,
-                                    mutedColorRgb = palette?.mutedSwatch?.rgb,
-                                    darkMutedColorRgb = palette?.darkMutedSwatch?.rgb
-                                )
+        if (event is HeroDetailsUiEvent.OnHeroImageLoaded && _uiState.value.hero?.heroColors == null) {
+            Palette.from(event.thumbnail.copy(Bitmap.Config.RGBA_F16, true))
+                .generate { palette ->
+                    _uiState.value.hero?.let {
+                        val updatedHero = it.copy(
+                            heroColors = HeroColors(
+                                vibrantColorRgb = palette?.vibrantSwatch?.rgb,
+                                darkVibrantColorRgb = palette?.darkVibrantSwatch?.rgb,
+                                lightMutedColorRgb = palette?.lightMutedSwatch?.rgb,
+                                mutedColorRgb = palette?.mutedSwatch?.rgb,
+                                darkMutedColorRgb = palette?.darkMutedSwatch?.rgb
                             )
-                            viewModelScope.launch {
-                                heroRepository.updateHero(updatedHero)
-                                updateState { copy(hero = updatedHero) }
-                            }
+                        )
+                        viewModelScope.launch {
+                            heroRepository.updateHero(updatedHero)
+                            updateState { copy(hero = updatedHero) }
                         }
                     }
-            }
+                }
         }
     }
 

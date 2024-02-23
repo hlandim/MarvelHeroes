@@ -1,6 +1,7 @@
 package com.hlandim.marvelheroes.database.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 /**
@@ -17,4 +18,13 @@ data class HeroEntity(
     val lightMutedColorRgb: Int? = null,
     val mutedColorRgb: Int? = null,
     val darkMutedColorRgb: Int? = null,
-)
+) {
+    @Ignore
+    val isColorsNotNull = listOfNotNull(
+        vibrantColorRgb,
+        darkVibrantColorRgb,
+        lightMutedColorRgb,
+        mutedColorRgb,
+        darkMutedColorRgb
+    ).any()
+}

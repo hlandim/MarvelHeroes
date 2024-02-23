@@ -13,22 +13,26 @@ fun HeroEntity.toHero(): Hero =
         id = id,
         name = name,
         thumbnailUrl = thumbnailUrl,
-        heroColors = HeroColors(
-            vibrantColorRgb = vibrantColorRgb,
-            darkVibrantColorRgb = darkVibrantColorRgb,
-            lightMutedColorRgb = lightMutedColorRgb,
-            mutedColorRgb = mutedColorRgb,
-            darkMutedColorRgb = darkMutedColorRgb
-        )
+        heroColors = if (isColorsNotNull) {
+            HeroColors(
+                vibrantColorRgb = vibrantColorRgb,
+                darkVibrantColorRgb = darkVibrantColorRgb,
+                lightMutedColorRgb = lightMutedColorRgb,
+                mutedColorRgb = mutedColorRgb,
+                darkMutedColorRgb = darkMutedColorRgb
+            )
+        } else {
+            null
+        }
     )
 
 fun Hero.toHeroEntity(): HeroEntity = HeroEntity(
     id = id,
     name = name,
     thumbnailUrl = thumbnailUrl,
-    vibrantColorRgb = heroColors.vibrantColorRgb,
-    darkVibrantColorRgb = heroColors.darkVibrantColorRgb,
-    lightMutedColorRgb = heroColors.lightMutedColorRgb,
-    mutedColorRgb = heroColors.mutedColorRgb,
-    darkMutedColorRgb = heroColors.darkMutedColorRgb
+    vibrantColorRgb = heroColors?.vibrantColorRgb,
+    darkVibrantColorRgb = heroColors?.darkVibrantColorRgb,
+    lightMutedColorRgb = heroColors?.lightMutedColorRgb,
+    mutedColorRgb = heroColors?.mutedColorRgb,
+    darkMutedColorRgb = heroColors?.darkMutedColorRgb
 )
