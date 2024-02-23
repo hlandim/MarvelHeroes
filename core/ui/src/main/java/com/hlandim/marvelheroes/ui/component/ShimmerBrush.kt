@@ -32,7 +32,7 @@ fun shimmerBrush(
             initialValue = 0f,
             targetValue = targetValue,
             animationSpec = infiniteRepeatable(
-                animation = tween(800),
+                animation = tween(500),
                 repeatMode = RepeatMode.Reverse,
             ),
             label = ANIMATION_LABEL

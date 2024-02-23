@@ -175,7 +175,7 @@ private fun HeroImage(
     val imageAlpha: Float by animateFloatAsState(
         targetValue = if (imageVisible) 0.5f else 0f,
         animationSpec = tween(
-            durationMillis = 1000,
+            durationMillis = 500,
             easing = LinearEasing,
         ),
         label = "",
