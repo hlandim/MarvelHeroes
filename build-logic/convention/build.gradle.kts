@@ -5,8 +5,8 @@ plugins {
 group = "com.hlandim.marvelheroes.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_18
-    targetCompatibility = JavaVersion.VERSION_18
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.org.jlleitschuh.gradle.ktlint.gradle)
     implementation(libs.io.gitlab.arturbosch.detekt.detekt.gradle.plugin)
     implementation(libs.hilt.gradle.plugin)
+    implementation(libs.compose.compiler.plugin)
 }
 
 gradlePlugin {
@@ -61,6 +62,6 @@ gradlePlugin {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("18"))
+        languageVersion.set(JavaLanguageVersion.of("17"))
     }
 }

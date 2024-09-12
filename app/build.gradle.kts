@@ -46,7 +46,7 @@ dependencies {
     api(libs.androidx.compose.ui.ui.graphics)
     api(libs.androidx.compose.ui.tooling.preview)
     api(libs.androidx.compose.material3)
-    testApi(libs.junit)
+    testApi(libs.junit4)
     androidTestApi(libs.androidx.test.ext.junit)
     androidTestApi(libs.androidx.test.espresso.espresso.core)
     androidTestApi(platform(libs.androidx.compose.compose.bom))
@@ -58,6 +58,6 @@ dependencies {
     api(libs.appcompat)
     api(libs.material)
     testApi(libs.junit4)
-    androidTestApi(libs.androidx.test.ext.junit115)
+    androidTestApi(libs.androidx.test.ext.junit)
     androidTestApi(libs.androidx.test.espresso.espresso.core)
 }

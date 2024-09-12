@@ -16,7 +16,7 @@ fun MhNavHost(
         navController = navController,
         startDestination = BottomBarDestinations.HeroesList.route
     ) {
-        heroesListScreen(navController::navigateToHeroDetails)
+        heroesListScreen(onHeroClicked = navController::navigateToHeroDetails)
         comicsListScreen()
         heroDetailsScreen()
     }

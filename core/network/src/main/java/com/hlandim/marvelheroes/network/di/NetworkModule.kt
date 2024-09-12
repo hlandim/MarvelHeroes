@@ -4,6 +4,8 @@ import android.content.Context
 import com.hlandim.marvelheroes.network.MarvelApi
 import com.hlandim.marvelheroes.network.util.NetworkCheck
 import com.hlandim.marvelheroes.network.util.SessionInterceptor
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +17,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
+private const val BASE_URL: String = "http://gateway.marvel.com/v1/public/"
+
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -23,9 +27,14 @@ object NetworkModule {
     @Singleton
     fun provideMarvelApi(
         client: OkHttpClient,
-    ) = Retrofit.Builder().baseUrl(MarvelApi.BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create()).client(client).build()
-        .create(MarvelApi::class.java)
+    ): MarvelApi {
+        val moshi = Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory())
+            .build()
+        return Retrofit.Builder().baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi)).client(client).build()
+            .create(MarvelApi::class.java)
+    }
 
     @Provides
     @Singleton

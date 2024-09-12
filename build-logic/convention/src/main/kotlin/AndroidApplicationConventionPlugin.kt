@@ -13,12 +13,13 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         with(target) {
             val libs = versionCatalog()
             with(pluginManager) {
-                apply(libs.findPlugin("com-android-application").get().get().pluginId)
-                apply(libs.findPlugin("org-jetbrains-kotlin-android").get().get().pluginId)
+                apply("com.android.application")
+                apply("org.jetbrains.kotlin.android")
                 apply("hlandim.android.lint")
                 apply("hlandim.android.detekt")
                 apply("hlandim.android.hilt")
                 apply("hlandim.android.unitTest")
+                apply(libs.findPlugin("compose-compiler").get().get().pluginId)
             }
             extensions.configure(ApplicationExtension::class.java) {
                 compileSdk = COMPILE_SDK

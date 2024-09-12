@@ -2,11 +2,11 @@ package com.hlandim.marvelheroes.core.data.util.pagging
 
 class PagingManagerImpl<Key, Item>(
     private val initialKey: Key,
-    private inline val onLoadUpdated: (Boolean) -> Unit,
-    private inline val onRequest: suspend (nextKey: Key, searchQuery: String?) -> List<Item>,
-    private inline val getNextKey: (List<Item>) -> Key,
-    private inline val onError: (Throwable?) -> Unit,
-    private inline val onSuccess: (items: List<Item>, newKey: Key) -> Unit
+    private val onLoadUpdated: (Boolean) -> Unit,
+    private val onRequest: suspend (nextKey: Key, searchQuery: String?) -> List<Item>,
+    private val getNextKey: (List<Item>) -> Key,
+    private val onError: (Throwable?) -> Unit,
+    private val onSuccess: (items: List<Item>, newKey: Key) -> Unit
 ) : PagingManager<Key, Item> {
 
     private var currentKey = initialKey

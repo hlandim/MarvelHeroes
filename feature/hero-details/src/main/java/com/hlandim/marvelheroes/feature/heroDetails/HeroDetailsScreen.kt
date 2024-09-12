@@ -50,7 +50,7 @@ import com.hlandim.marvelheroes.core.ui.R
 import com.hlandim.marvelheroes.model.Hero
 import com.hlandim.marvelheroes.model.HeroColors
 import com.hlandim.marvelheroes.ui.component.ErrorDialog
-import com.hlandim.marvelheroes.ui.component.shimmerBrush
+import com.hlandim.marvelheroes.ui.component.shimmerLoadingAnimation
 import com.hlandim.marvelheroes.ui.theme.MhTheme
 import com.hlandim.marvelheroes.ui.util.LightDarkPreview
 
@@ -194,12 +194,7 @@ private fun HeroImage(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        shimmerBrush(
-                            targetValue = 1300f,
-                            showShimmer = isLoadingThumbnail.value,
-                        )
-                    ),
+                    .shimmerLoadingAnimation(),
                 onSuccess = { success ->
                     isLoadingThumbnail.value = false
                     onThumbnailLoaded((success.result.drawable as BitmapDrawable).bitmap)

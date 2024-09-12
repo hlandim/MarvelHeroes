@@ -1,5 +1,11 @@
 package com.hlandim.marvelheroes.ui.component
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -57,12 +67,7 @@ fun MhGridCard(
                     modifier = Modifier
                         .fillMaxSize()
                         .defaultMinSize(minHeight = minMhCardHeight)
-                        .background(
-                            shimmerBrush(
-                                targetValue = 1300f,
-                                showShimmer = isLoadingThumbnail.value,
-                            )
-                        ),
+                        .shimmerLoadingAnimation(),
                     onSuccess = {
                         isLoadingThumbnail.value = false
                     },
@@ -94,24 +99,53 @@ private fun PlaceholderCardLoading(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(
-                    shimmerBrush(
-                        targetValue = 1300f,
-                        showShimmer = true,
-                    )
-                )
+                .shimmerLoadingAnimation()
         )
         Text(
             text = "",
             modifier = Modifier
                 .padding(15.dp)
                 .fillMaxWidth()
-                .background(
-                    shimmerBrush(
-                        targetValue = 1500f,
-                        showShimmer = true,
-                    )
-                )
+                .shimmerLoadingAnimation()
+        )
+    }
+}
+
+fun Modifier.shimmerLoadingAnimation(
+    widthOfShadowBrush: Int = 500,
+    angleOfAxisY: Float = 270f,
+    durationMillis: Int = 1000,
+): Modifier {
+    return composed {
+        val shimmerColors = listOf(
+            Color.Gray.copy(alpha = 0.3f),
+            Color.Gray.copy(alpha = 0.5f),
+            Color.Gray.copy(alpha = 1.0f),
+            Color.Gray.copy(alpha = 0.5f),
+            Color.Gray.copy(alpha = 0.3f),
+        )
+
+        val transition = rememberInfiniteTransition(label = "")
+
+        val translateAnimation = transition.animateFloat(
+            initialValue = 0f,
+            targetValue = (durationMillis + widthOfShadowBrush).toFloat(),
+            animationSpec = infiniteRepeatable(
+                animation = tween(
+                    durationMillis = durationMillis,
+                    easing = LinearEasing,
+                ),
+                repeatMode = RepeatMode.Restart,
+            ),
+            label = "Shimmer loading animation",
+        )
+
+        this.background(
+            brush = Brush.linearGradient(
+                colors = shimmerColors,
+                start = Offset(x = translateAnimation.value - widthOfShadowBrush, y = 0.0f),
+                end = Offset(x = translateAnimation.value, y = angleOfAxisY),
+            ),
         )
     }
 }

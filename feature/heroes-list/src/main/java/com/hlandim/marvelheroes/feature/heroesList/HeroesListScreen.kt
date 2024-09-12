@@ -92,7 +92,7 @@ private fun HeroesGridList(
             val hero = if (index <= heroes.size - 1) heroes[index] else null
             MhGridCard(
                 modifier = Modifier
-                    .animateItemPlacement()
+                    .animateItem()
                     .clickable {
                         hero?.let {
                             onHeroClicked(it.id.toString())
@@ -108,7 +108,7 @@ private fun HeroesGridList(
             item {
                 MhGridCard(
                     modifier = Modifier
-                        .animateItemPlacement()
+                        .animateItem()
                         .fillMaxSize(),
                     isPlaceholder = true,
                 )

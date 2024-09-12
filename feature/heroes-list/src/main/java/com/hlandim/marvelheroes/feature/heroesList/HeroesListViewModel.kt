@@ -48,6 +48,7 @@ class HeroesListViewModel @Inject constructor(
                 }
 
                 is DataResponse.Exception -> {
+                    result.e.printStackTrace()
                     updateState {
                         copy(genericErrorMsg = UiText.DynamicString(result.e.message.orEmpty()))
                     }

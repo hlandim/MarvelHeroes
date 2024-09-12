@@ -24,9 +24,9 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("api", libs.findLibrary("android-room-room-runtime").get())
-                add("implementation", libs.findLibrary("android-room-room-ktx").get())
-                add("ksp", libs.findLibrary("android-room-room-compiler").get())
+                add("api", libs.findLibrary("androidx-room-room-runtime").get())
+                add("implementation", libs.findLibrary("androidx-room-room-ktx").get())
+                add("ksp", libs.findLibrary("androidx-room-room-compiler").get())
             }
         }
     }

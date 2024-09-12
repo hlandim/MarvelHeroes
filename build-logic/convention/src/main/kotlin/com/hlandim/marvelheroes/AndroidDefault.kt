@@ -5,10 +5,12 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 internal fun Project.setDefaultConfig(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         compileOptions {
@@ -23,13 +25,14 @@ internal fun Project.setDefaultConfig(
             add("coreLibraryDesugaring", libs.findLibrary("android-desugarJdkLibs").get())
         }
     }
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = Config.JAVA_VERSION.toString()
+    tasks.withType<KotlinJvmCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(Config.JVM_TARGET)
+            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
         }
     }
 }
 
 internal fun Project.versionCatalog(): VersionCatalog =
-    extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+    extensions.getByType(VersionCatalogsExtension::class).named("libs")
 

@@ -33,4 +33,5 @@ dependencies {
     implementation(libs.com.squareup.retrofit2.retrofit)
     implementation(libs.com.squareup.retrofit2.retrofit.converter.moshi)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
+    implementation(libs.moshi.kotlin)
 }
