@@ -4,9 +4,10 @@ import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import androidx.palette.graphics.Palette
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
-import com.hlandim.marvelheroes.feature.heroDetails.navigation.HeroDetailsArgs
+import com.hlandim.marvelheroes.feature.heroDetails.navigation.HeroDetailsRoute
 import com.hlandim.marvelheroes.model.HeroColors
 import com.hlandim.marvelheroes.ui.util.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,7 @@ class HeroDetailsViewModel @Inject constructor(
     private val heroRepository: HeroRepository,
 ) : ViewModel() {
 
-    private val heroDetailsArgs: HeroDetailsArgs = HeroDetailsArgs(savedStateHandle)
+    private val heroDetailsArgs = savedStateHandle.toRoute<HeroDetailsRoute>()
 
     private val _uiState: MutableStateFlow<HeroDetailsUiState> =
         MutableStateFlow(HeroDetailsUiState())

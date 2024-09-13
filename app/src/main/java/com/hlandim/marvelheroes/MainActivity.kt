@@ -61,7 +61,7 @@ private fun MhBottomBar(navController: NavHostController) {
                 icon = {
                     Icon(painter = painterResource(id = screen.icon), contentDescription = "")
                 },
-                selected = currentRoute == screen.route,
+                selected = currentRoute == screen.route::class.qualifiedName,
                 onClick = {
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {

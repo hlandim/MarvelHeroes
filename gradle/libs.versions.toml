@@ -10,7 +10,6 @@ androidx-room = "2.6.1"
 androidx-savedstate = "1.2.1"
 androidx-test-espresso = "3.6.1"
 androidx-test-ext-junit = "1.2.1"
-appcompat = "1.7.0"
 compose-bom = "2024.09.01"
 detekt = "1.23.7"
 gradle = "8.5.0"
@@ -19,6 +18,7 @@ hilt = "2.52"
 hiltExt = "1.2.0"
 junit4 = "4.13.2"
 junit5 = "5.11.0"
+appcompat = "1.7.0"
 klint = "11.6.0"
 kotlin = "2.0.20"
 kotlinxCoroutines = "1.8.1"
@@ -91,6 +91,7 @@ io-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 javax-inject-javax-inject = "javax.inject:javax.inject:1"
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.2" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 org-jetbrains-kotlin-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 org-jetbrains-kotlin-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -99,6 +100,7 @@ org-jlleitschuh-gradle-ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint
 org-junit-jupiter-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 org-junit-jupiter-junit-jupiter-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
+jetbrains-kotlin-serialization-plugin = { module = "org.jetbrains.kotlin.plugin.serialization:org.jetbrains.kotlin.plugin.serialization.gradle.plugin", version.ref = "kotlin" }
 
 [plugins]
 com-github-ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
@@ -107,5 +109,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 io_gitlab-arturbosch-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 nl-littlerobots-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
-org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 org-jlleitschuh-gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "klint" }
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version = "kotlin" }

@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.io.gitlab.arturbosch.detekt.detekt.gradle.plugin)
     implementation(libs.hilt.gradle.plugin)
     implementation(libs.compose.compiler.plugin)
+    implementation(libs.jetbrains.kotlin.serialization.plugin)
 }
 
 gradlePlugin {

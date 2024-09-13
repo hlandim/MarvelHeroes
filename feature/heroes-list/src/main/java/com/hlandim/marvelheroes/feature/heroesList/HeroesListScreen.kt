@@ -27,13 +27,13 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun HeroesListRoute(
+fun HeroesListScreen(
     viewModel: HeroesListViewModel = hiltViewModel(),
     onHeroClicked: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Surface(Modifier.fillMaxSize()) {
-        HeroesListScreen(
+        HeroesListContent(
             uiState = uiState,
             onHeroClicked = remember { onHeroClicked },
             onErrorDialogDismissed = remember { { viewModel.onUiEvent(HeroesListUiEvent.OnErrorDismissed) } },
@@ -43,7 +43,7 @@ fun HeroesListRoute(
 }
 
 @Composable
-private fun HeroesListScreen(
+private fun HeroesListContent(
     uiState: HeroesListUiState,
     onHeroClicked: (String) -> Unit,
     onErrorDialogDismissed: () -> Unit,
@@ -122,7 +122,7 @@ private fun HeroesGridList(
 private fun HeroesListScreenPreview() {
     MhTheme {
         Surface {
-            HeroesListScreen(
+            HeroesListContent(
                 uiState = HeroesListUiState(
                     heroes = persistentListOf(
                         Hero(

@@ -4,20 +4,17 @@ import com.hlandim.marvelheroes.Config.COMPILE_SDK
 import com.hlandim.marvelheroes.Config.DEFAULT_TARGET
 import com.hlandim.marvelheroes.Config.MIN_SDK
 import com.hlandim.marvelheroes.setDefaultConfig
-import com.hlandim.marvelheroes.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        val libs = versionCatalog()
         with(pluginManager) {
             apply("com.android.library")
             apply("org.jetbrains.kotlin.android")
             apply("hlandim.android.lint")
             apply("hlandim.android.detekt")
             apply("hlandim.android.unitTest")
-            apply(libs.findPlugin("org-jetbrains-kotlin-kapt").get().get().pluginId)
         }
 
         extensions.configure(LibraryExtension::class.java) {

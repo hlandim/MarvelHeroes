@@ -2,16 +2,19 @@ package com.hlandim.marvelheroes.feature.heroesList.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.hlandim.marvelheroes.feature.heroesList.HeroesListRoute
-
-const val HEROES_LIST_ROUTE: String = "heroes_list_route"
+import com.hlandim.marvelheroes.feature.heroesList.HeroesListScreen
+import com.hlandim.marvelheroes.ui.BottomBarRoute
+import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.heroesListScreen(
     onHeroClicked: (heroId: String) -> Unit,
 ) {
-    composable(route = HEROES_LIST_ROUTE) {
-        HeroesListRoute(onHeroClicked = {
+    composable<HeroesListRoute> {
+        HeroesListScreen(onHeroClicked = {
             onHeroClicked(it)
         })
     }
 }
+
+@Serializable
+data object HeroesListRoute : BottomBarRoute

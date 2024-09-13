@@ -13,6 +13,7 @@ internal fun Project.configureAndroidCompose(
     val libs = versionCatalog()
     with(pluginManager) {
         apply(libs.findPlugin("compose-compiler").get().get().pluginId)
+        apply(libs.findPlugin("jetbrains-kotlin-serialization").get().get().pluginId)
     }
     commonExtension.apply {
         buildFeatures {
@@ -31,6 +32,7 @@ internal fun Project.configureAndroidCompose(
             add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
             add("implementation", libs.findLibrary("androidx.navigation.navigation.compose").get())
+            add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
             add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
         }
     }

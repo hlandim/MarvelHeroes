@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.hlandim.marvelheroes.feature.comicsList.navigation.comicsListScreen
 import com.hlandim.marvelheroes.feature.heroDetails.navigation.heroDetailsScreen
 import com.hlandim.marvelheroes.feature.heroDetails.navigation.navigateToHeroDetails
+import com.hlandim.marvelheroes.feature.heroesList.navigation.HeroesListRoute
 import com.hlandim.marvelheroes.feature.heroesList.navigation.heroesListScreen
 
 @Composable
@@ -14,7 +15,7 @@ fun MhNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarDestinations.HeroesList.route
+        startDestination = HeroesListRoute,
     ) {
         heroesListScreen(onHeroClicked = navController::navigateToHeroDetails)
         comicsListScreen()

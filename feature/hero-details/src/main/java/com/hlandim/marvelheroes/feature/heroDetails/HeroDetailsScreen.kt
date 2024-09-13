@@ -55,12 +55,12 @@ import com.hlandim.marvelheroes.ui.theme.MhTheme
 import com.hlandim.marvelheroes.ui.util.LightDarkPreview
 
 @Composable
-fun HeroDetailsRoute(
+fun HeroDetailsScreen(
     viewModel: HeroDetailsViewModel = hiltViewModel(),
 ) {
     val uiState: HeroDetailsUiState by viewModel.uiState.collectAsStateWithLifecycle()
     Surface(Modifier.fillMaxSize()) {
-        HeroDetailsScreen(
+        HeroDetailsContent(
             uiState = uiState,
             onThumbnailLoaded = remember {
                 {
@@ -80,7 +80,7 @@ private data class HeroTheme(
 private val LocalHeroTheme = compositionLocalOf { HeroTheme() }
 
 @Composable
-private fun HeroDetailsScreen(
+private fun HeroDetailsContent(
     uiState: HeroDetailsUiState,
     onThumbnailLoaded: (Bitmap) -> Unit,
 ) {
@@ -326,7 +326,7 @@ private fun ComicsCard(
 private fun Preview() {
     MhTheme {
         Surface {
-            HeroDetailsScreen(
+            HeroDetailsContent(
                 uiState = HeroDetailsUiState(
                     hero = Hero(
                         id = 1596,
