@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.hlandim.marvelheroes.core.data.repository.HeroRepository
 import com.hlandim.marvelheroes.core.data.util.DataResponse
 import com.hlandim.marvelheroes.core.data.util.pagging.PagingManagerImpl
+import com.hlandim.marvelheroes.model.Hero
+import com.hlandim.marvelheroes.ui.component.GridListData
 import com.hlandim.marvelheroes.ui.util.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +28,10 @@ class HeroesListViewModel @Inject constructor(
         MutableStateFlow(HeroesListUiState())
     val uiState: StateFlow<HeroesListUiState> = _uiState
 
+    private val heroes: MutableList<Hero> = mutableListOf()
+
     private val pagingManger = PagingManagerImpl(
-        initialKey = _uiState.value.heroes.size,
+        initialKey = heroes.size,
         onLoadUpdated = {
             updateState { copy(isLoadingNextPage = it) }
         },
@@ -59,13 +63,14 @@ class HeroesListViewModel @Inject constructor(
             }
         },
         getNextKey = {
-            _uiState.value.heroes.size
+            heroes.size
         },
         onError = {},
         onSuccess = { items, _ ->
+            heroes.addAll(items)
             updateState {
                 copy(
-                    heroes = (heroes + items).toPersistentList(),
+                    uiList = heroes.toUiListState(),
                     isLoadingNextPage = false,
                     endReached = items.isEmpty(),
                 )
@@ -93,4 +98,12 @@ class HeroesListViewModel @Inject constructor(
     private fun updateState(update: HeroesListUiState.() -> HeroesListUiState) {
         _uiState.update { update(it) }
     }
+
+    private fun List<Hero>.toUiListState() = map { hero ->
+        GridListData(
+            id = hero.id,
+            label = hero.name,
+            thumbnailUrl = hero.thumbnailUrl,
+        )
+    }.toImmutableList()
 }
